@@ -1,0 +1,17 @@
+@mixin dflex($jcenter, $aitems, $flexdirection) {
+  display: flex;
+  justify-content: $jcenter;
+  align-items: $aitems;
+  flex-direction: $flexdirection;
+}
+
+header {
+  @include dflex(center, start, column);
+  padding-left: 1rem;
+  color: black;
+  z-index: 1;
+  background-color: white;
+  div:first-child {
+    padding-bottom: 1rem;
+  }
+}

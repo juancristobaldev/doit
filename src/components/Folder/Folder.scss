@@ -1,0 +1,43 @@
+@mixin dflex($jcenter, $aitems, $flexdirection) {
+  display: flex;
+  justify-content: $jcenter;
+  align-items: $aitems;
+  flex-direction: $flexdirection;
+}
+.Folder {
+  min-width: 60vw;
+  min-height: 60vw;
+  border: 2.5px solid #fff4a0;
+  margin-left: 1rem;
+  border-radius: 0.5rem;
+  display: grid;
+  grid-template: 20% repeat(4, 1fr) 20% / 100%;
+  .folderName {
+    @include dflex(center, center, row);
+  }
+  .routine {
+    @include dflex(space-around, center, row);
+    .routineDone {
+      @include dflex(space-around, center, row);
+      p {
+        margin-left: 0.25rem;
+      }
+    }
+  }
+  .seeMore {
+    @include dflex(center, center, row);
+    grid-area: 6/1/7/2;
+    button {
+      color: black;
+      background-color: transparent;
+      border: 1px solid black;
+      padding: 0.5rem 2rem;
+      transition: 0.5s;
+      border-radius: 1rem;
+      &:hover {
+        color: white;
+        background-color: black;
+      }
+    }
+  }
+}

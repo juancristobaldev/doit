@@ -1,0 +1,42 @@
+@mixin dflex($jcenter, $aitems, $flexdirection) {
+  display: flex;
+  justify-content: $jcenter;
+  align-items: $aitems;
+  flex-direction: $flexdirection;
+}
+
+.routineItem {
+  background-color: #fff4a0;
+  min-width: 60vw;
+  min-height: 60vw;
+  margin-left: 1rem;
+  border-radius: 0.5rem;
+  display: grid;
+  grid-template: 20% 60% 20% / 100%;
+  box-shadow: 1px 1px 5px rgba($color: #000000, $alpha: 0.1);
+  .nameExercise {
+    @include dflex(center, center, row);
+  }
+  .stats {
+    display: grid;
+    grid-template: repeat(2, 1fr) / repeat(2, 1fr);
+    .exercises,
+    .done,
+    .time {
+      @include dflex(center, center, row);
+      p {
+        margin-left: 5px;
+      }
+    }
+  }
+  .divButton {
+    @include dflex(center, center, row);
+    button {
+      padding: 0.5rem 3rem;
+      border-radius: 1rem;
+      border: 0;
+      background-color: black;
+      color: white;
+    }
+  }
+}
