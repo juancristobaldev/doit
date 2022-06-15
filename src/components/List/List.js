@@ -1,8 +1,8 @@
 import React from "react";
 import './List.scss'
-function List({children}){
+function List({children,className}){
     return(
-        <div className="ListRoutines">
+        <div className={className}>
             {children}
         </div>
     )

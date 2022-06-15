@@ -1,0 +1,12 @@
+.ListRoutines,
+.ListFolders {
+  display: flex;
+  overflow-x: auto;
+  align-items: center;
+}
+.listExercises {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}

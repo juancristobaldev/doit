@@ -8,8 +8,11 @@ function Folder({folderName,routines}){
                 <h3>{folderName}</h3>
             </div>
             {routines.map(routine => (
+            
                 <React.Fragment>
-                    <div className="routine">
+                    <div className="routine"
+                    key={folderName}
+                    >
                         <div><p>{routine.name}</p></div>
                         <div className="routineDone"><RiFlag2Fill/><p>{routine.done}</p></div>
                     </div>
