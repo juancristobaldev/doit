@@ -1,25 +1,131 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocalStorage } from "./useLocalStorage";
 
 const AppContext = React.createContext()
 
 function AppProvider({children}){
-    const {itemLocalStorage,saveItemLocalStorage} = useLocalStorage('UserDB',[])
+    const {itemLocalStorage,saveItemLocalStorage} = useLocalStorage('UserDB',{
+        name:'Juan Cristobal',
+        routines:[],
+        folders:[],
+        exercises:[]
+    })
 
+  /*  const DB = {
+        name:'Juan Cristobal',
+        routines:[
+            { 
+                name:"Espalda",
+                done:6,
+                time:"48:30min",
+                exercises:[
+                    {
+                        nameExercise:"Pull ups",
+                        series:4,
+                        reps:12
+                    },
+                    {
+                        nameExercise:"Pull ups",
+                        series:4,
+                        reps:12
+                    },
+                    {
+                        nameExercise:"Pull ups",
+                        series:4,
+                        reps:12
+                    }
+                ]
+            },
+            { 
+                name:"Piernas",
+                done:4,
+                time:"66:6",
+                exercises:[
+                    {
+                        nameExercise:"Pull ups",
+                        series:4,
+                        reps:12
+                    },
+                    {
+                        nameExercise:"Pull ups",
+                        series:4,
+                        reps:12
+                    },
+                    {
+                        nameExercise:"Pull ups",
+                        series:4,
+                        reps:12
+                    }
+                ]
+            }
+        ],
+        folders:[
+            {
+              name:"Tiron",
+              routines:[]
+            },
+            {
+              name:"Empuje",
+              routines:[{ 
+                name:"Espalda",
+                done:6,
+                time:"48:30min",
+                exercises:[
+                    {
+                        nameExercise:"Pull ups",
+                        series:4,
+                        reps:12
+                    },
+                    {
+                        nameExercise:"Pull ups",
+                        series:4,
+                        reps:12
+                    },
+                    {
+                        nameExercise:"Pull ups",
+                        series:4,
+                        reps:12
+                    }
+                ]
+            },{ 
+                name:"Espalda",
+                done:6,
+                time:"48:30min",
+                exercises:[
+                    {
+                        nameExercise:"Pull ups",
+                        series:4,
+                        reps:12
+                    },
+                    {
+                        nameExercise:"Pull ups",
+                        series:4,
+                        reps:12
+                    },
+                    {
+                        nameExercise:"Pull ups",
+                        series:4,
+                        reps:12
+                    }
+                ]
+            }]
+            }
+          ]
+    } */
+    
     const UserDB = itemLocalStorage
     const AlterUserDB = saveItemLocalStorage
-
     const [vision,setVision] = React.useState('dashboard')
     const [panelAdd,setPanelAdd] = React.useState(false)
     const [list,setList] = React.useState([])
-    const [exercises,setExercises] = React.useState(
-        [
-            {name:"Pull ups",select:false},
-            {name:"Chin ups",select:false},
-            {name:"Push ups",select:false},
-            {name:"Wide pull ups",select:false}
-        ]
-    )
+    const [dataForm,setDataForm] = React.useState({})
+    console.log(dataForm)
+    const [exercises,setExercises] = React.useState(UserDB.exercises)
+    const [formCreate,setFormCreate] = useState({
+        name:null,
+        muscle:null,
+        type:null
+    })
     const [modal, setModal] = React.useState('select')
   
   
@@ -36,14 +142,16 @@ function AppProvider({children}){
     function selectExercise(nameExercise){
         const indexArray = exercises.findIndex(item => item.name == nameExercise)
         const newList = [...exercises]
+
         newList.forEach(item => {
             item.select = false
         })
+
         newList[indexArray].select = true
         setExercises(newList)
     }   
 
-    function addExercise(){
+    function addExerciseToList(){
         const exerciseSelect = exercises.filter(select => select.select == true)
         if(!exerciseSelect){console.log('Selecciona algo')}
         else{
@@ -66,7 +174,29 @@ function AppProvider({children}){
         }
     }
 
-    
+    function createExercise(event){
+        event.preventDefault()
+        const newExercise = {
+            name:dataForm.name,
+            muscle:dataForm.muscle,
+            type:dataForm.type,
+            reps:null,
+            series:null,
+            select:false,
+            key:UserDB.exercises.length + 1
+        }
+        const newUserDB = {...itemLocalStorage}
+        newUserDB.exercises.push(newExercise)
+        AlterUserDB('UserDB',newUserDB)
+        setModal("select")
+
+    }
+
+    function getDataForm(event,name){
+        const data = dataForm
+        data[name] = event.target.value
+        setDataForm(data)
+    }
 
     return(
         <AppContext.Provider
@@ -76,11 +206,13 @@ function AppProvider({children}){
             exercises,setExercises,
             list,setList,
             modal,setModal,
+            UserDB,AlterUserDB,
+            formCreate,setFormCreate,
             AddSerie,
             selectExercise,
-            addExercise,
-            UserDB,AlterUserDB
-
+            addExerciseToList,
+            createExercise,
+            getDataForm
         }}
         >
             {children}

@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 
-function Serie({name}){
-    const [key,setKey] = React.useState(0)
+function Serie({item}){
     return(
-            <div key={setKey(key + 1)}>
-                <p>{name}</p>
-                <input type="number"/>
-            </div>
+        <div>
+            <p>{item}</p>  
+            <input type="number"/>
+        </div>
     )
 }
 

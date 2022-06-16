@@ -14,6 +14,9 @@ import './App.scss'
 import { ExercisesForm } from "./components/ExerciseForm/ExerciseForm";
 import { AppContext } from "./hooks/AppContext";
 import { Exercise } from "./components/Exercise/Exercise";
+import { Serie } from "./components/Exercise/Serie";
+import { OpenModalExercise } from "./components/Buttons/OpenModalExercise";
+import { SaveRoutine } from "./components/Buttons/SaveRoutine";
 function AppUI() {
 
 
@@ -43,6 +46,7 @@ function AppUI() {
           className="addRoutine"
           />
           <List className="ListRoutines">
+          {UserDB.routines.length == 0 && <p>No hay rutinas <br/> 🏋🏻 </p>}
           {UserDB.routines.map(routine => (
             <RoutineItem
             name={routine.name}
@@ -60,8 +64,8 @@ function AppUI() {
             className="addFolder"
             />
             <List className="ListFolders">
-            {
-              UserDB.folders.map(folder => (
+            {UserDB.folders.length == 0 && <p>No hay carpetas <br/> 📁 </p>}
+            {UserDB.folders.map(folder => (
                 <Folder
                 folderName = {folder.name}
                 routines = {folder.routines}
@@ -76,30 +80,28 @@ function AppUI() {
       }
       {vision == "addRoutine" &&
         <Main className="addRoutine">
-          {panelAdd && 
-            <Modal>
-              <ExercisesForm
-                setList={setList}
-                List={list}
-                setPanelAdd={setPanelAdd}
-                panelAdd={panelAdd}
-                />
-            </Modal>
-          }
           <Section className="title">
             <p>Estas creando una rutina:</p>
             <input/>
           </Section>
           <List className="ListExercises">
-          {list == false && <p>Añade tu primer ejercicio...</p>}
-          {list.length > 0 && list.map(exercise => <Exercise exercise={exercise}/>)}
+          {list == false && <p>Añade tu primer ejercicio <br/> 🏋🏻</p>}
+          {list.length > 0 && list.map(
+            exercise => 
+            <Exercise exercise={exercise}>
+              {exercise.map(item =>
+                <Serie item={item}/>
+              )}
+            </Exercise>
+          )}
           </List>
-          <div>
-            <button onClick={() => setPanelAdd(!panelAdd)}>Añadir ejercicio</button>
-          </div>
-          <div>
-            <button>Añadir rutina</button>
-          </div>
+          <OpenModalExercise/>
+          <SaveRoutine/>
+          {panelAdd && 
+            <Modal>
+              <ExercisesForm/>
+            </Modal>
+          }
         </Main>
       }
       {vision == "addFolder" && <div>Add Folder</div>}

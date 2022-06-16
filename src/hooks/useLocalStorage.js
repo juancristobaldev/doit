@@ -7,7 +7,7 @@ const useLocalStorage = (itemName,initialValue) => {
     
     const itemLocalStorage = JSON.parse(localStorage.getItem(itemName))
 
-    if(itemLocalStorage == false){
+    if(itemLocalStorage == null){
         localStorage.setItem(itemName,JSON.stringify(initialValue))
         itemLocalStorage = localStorage.getItem(itemName)
     }
