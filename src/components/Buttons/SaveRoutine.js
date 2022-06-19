@@ -1,11 +1,13 @@
-import React from "react";
-
+import React, { useContext } from "react";
+import { AppContext } from "../../hooks/AppContext";
+import "./Buttons.scss"
 function SaveRoutine(){
+    const {AddRoutine} = useContext(AppContext)
     return(
-        <div>
-            <button>Guardar rutina</button>
-        </div>
+            <button 
+            className="buttonSaveRoutine"
+            onClick={() => AddRoutine()}>Guardar rutina</button>
     )
 }
 
-export{ SaveRoutine }
+export { SaveRoutine }

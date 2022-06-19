@@ -1,0 +1,101 @@
+  /*  const DB = {
+        name:'Juan Cristobal',
+        routines:[
+            { 
+                name:"Espalda",
+                done:6,
+                time:"48:30min",
+                exercises:[
+                    {
+                        nameExercise:"Pull ups",
+                        series:4,
+                        reps:12
+                    },
+                    {
+                        nameExercise:"Pull ups",
+                        series:4,
+                        reps:12
+                    },
+                    {
+                        nameExercise:"Pull ups",
+                        series:4,
+                        reps:12
+                    }
+                ]
+            },
+            { 
+                name:"Piernas",
+                done:4,
+                time:"66:6",
+                exercises:[
+                    {
+                        nameExercise:"Pull ups",
+                        series:4,
+                        reps:12
+                    },
+                    {
+                        nameExercise:"Pull ups",
+                        series:4,
+                        reps:12
+                    },
+                    {
+                        nameExercise:"Pull ups",
+                        series:4,
+                        reps:12
+                    }
+                ]
+            }
+        ],
+        folders:[
+            {
+              name:"Tiron",
+              routines:[]
+            },
+            {
+              name:"Empuje",
+              routines:[{ 
+                name:"Espalda",
+                done:6,
+                time:"48:30min",
+                exercises:[
+                    {
+                        nameExercise:"Pull ups",
+                        series:4,
+                        reps:12
+                    },
+                    {
+                        nameExercise:"Pull ups",
+                        series:4,
+                        reps:12
+                    },
+                    {
+                        nameExercise:"Pull ups",
+                        series:4,
+                        reps:12
+                    }
+                ]
+            },{ 
+                name:"Espalda",
+                done:6,
+                time:"48:30min",
+                exercises:[
+                    {
+                        nameExercise:"Pull ups",
+                        series:4,
+                        reps:12
+                    },
+                    {
+                        nameExercise:"Pull ups",
+                        series:4,
+                        reps:12
+                    },
+                    {
+                        nameExercise:"Pull ups",
+                        series:4,
+                        reps:12
+                    }
+                ]
+            }]
+            }
+          ]
+    } */

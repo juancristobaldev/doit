@@ -5,11 +5,31 @@ import { App } from "../../App";
 
 
 function AddSomething({alter,className}){
-    const {setVision} = React.useContext(AppContext)
+    const {changeVision} = React.useContext(AppContext)
     return(
         <div className={"addSomething " + className}>
-            <h2>{alter == "addFolder" ? 'Tus carpetas' : 'Tus rutinas'  }</h2>
-            <button onClick={(event) => setVision(alter,event)}>Nuevo</button>
+            {alter === "addRoutine" &&
+                <React.Fragment>
+                    <div className="titleAddSomething">
+                        <h2>Tus rutinas</h2>
+                    </div>
+                    <div className="functions">
+                        <p>Filtrar rutinas</p>
+                        <button
+                        onClick={() => changeVision(alter)}
+                        >
+                        Nuevo</button>
+                    </div>
+                </React.Fragment>
+            }
+            {alter !== "addRoutine" && 
+                <React.Fragment>
+                    <h2>Tus carpetas</h2>
+                    <button
+                    onClick={() => changeVision(alter)}
+                    >Nuevo</button>
+                </React.Fragment>
+            }
         </div>
     )
 }

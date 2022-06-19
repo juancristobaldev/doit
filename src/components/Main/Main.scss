@@ -1,4 +1,12 @@
+main {
+  background-color: #1c1c1c;
+}
+
 main.dashboard {
   display: grid;
-  grid-template: 25vh 40vh 40vh 10vh / 100%;
+  grid-template: 10vh 52.5vh 30vh 7.5vh / 100%;
+}
+main.addRoutine {
+  display: grid;
+  grid-template: repeat(2, 10vh) 55vh 15vh 10vh / 100%;
 }

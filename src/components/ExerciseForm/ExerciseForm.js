@@ -5,28 +5,31 @@ import { FormControl } from "../FormControl/FormControl";
 
 function ExercisesForm(){
     const {
-        exercises,
+        UserDB,
         modal,
         setModal,
-        addExerciseToList,
-        selectExercise,
+        listExercises,
         createExercise,
-        getDataForm
+        addExerciseToList,
+        selectOnList,
+        getDataForm,
     } = React.useContext(AppContext)
     return(
         <div>
             {modal === "select" && 
             <React.Fragment>
-                {exercises.length === 0 && "Crea tu primer ejercicio"}
-                {exercises.length > 0 &&
-                    exercises.map(exercise => 
+                {UserDB.exercises.length === 0 && "Crea tu primer ejercicio"}
+                {UserDB.exercises.length > 0 &&
+                    listExercises.map(exercise => 
                         <div
-                            style={exercise.select ? {background:"black",color:"white"} : {background:"white",color:"black"}}
-                            onClick={() => selectExercise(exercise.name)}
+                            style={
+                                exercise.select ? 
+                                {background:"black",color:"white"} : {background:"white",color:"black"}
+                            }
+                            onClick={() => selectOnList(exercise.name)}
                             key={exercise.name}
                             >{exercise.name}
-                        </div>
-                            
+                        </div>            
                     )
                 }
                 <button 
@@ -38,7 +41,7 @@ function ExercisesForm(){
                 <button 
                 onClick={() => addExerciseToList()}
                 >
-                Agregar ejercicio
+                Agregar a la rutina
                 </button>
             </React.Fragment>
             }

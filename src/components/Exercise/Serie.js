@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-
-function Serie({item}){
+import React, { useState,useContext } from "react";
+import { AppContext } from "../../hooks/AppContext";
+function Serie({name,reps}){
+    const {getDataForm} = useContext(AppContext)
     return(
         <div>
-            <p>{item}</p>  
-            <input type="number"/>
+            <p>{name}</p>  
+            <input name={reps} onChange={element => getDataForm(element,name)} type="number"/>
         </div>
     )
 }

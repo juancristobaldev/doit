@@ -6,20 +6,25 @@
 }
 
 .routineItem {
-  background-color: #fff4a0;
-  min-width: 60vw;
-  min-height: 60vw;
-  margin-left: 1rem;
+  background-color: #4a4a4a;
+  min-width: 46vw;
+  min-height: 46vw;
+  max-width: 46vw;
+  max-height: 46vw;
   border-radius: 0.5rem;
-  display: grid;
+  margin: 2vw;
+  display: inline-grid;
   grid-template: 20% 60% 20% / 100%;
-  box-shadow: 1px 1px 5px rgba($color: #000000, $alpha: 0.1);
+  box-shadow: 1px 1px 10px rgba($color: #000000, $alpha: 0.6);
   .nameExercise {
     @include dflex(center, center, row);
+    font-size: 0.5rem;
+    letter-spacing: 1px;
   }
   .stats {
     display: grid;
     grid-template: repeat(2, 1fr) / repeat(2, 1fr);
+    font-size: 0.5rem;
     .exercises,
     .done,
     .time {
@@ -28,11 +33,15 @@
         margin-left: 5px;
       }
     }
+    .time {
+      grid-area: 2 / 2 / 3 / 3;
+    }
   }
   .divButton {
     @include dflex(center, center, row);
     button {
-      padding: 0.5rem 3rem;
+      padding: 0.25rem 2rem;
+      font-size: 0.5rem;
       border-radius: 1rem;
       border: 0;
       background-color: black;

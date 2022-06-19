@@ -1,10 +1,10 @@
 import React from "react";
 import './List.scss'
-function List({children,className}){
+function List({children,className,style}){
     return(
-        <div className={className}>
+            <div style={style} className={className}>
             {children}
-        </div>
+            </div>
     )
 }
 

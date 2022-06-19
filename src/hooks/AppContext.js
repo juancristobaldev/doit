@@ -10,209 +10,188 @@ function AppProvider({children}){
         folders:[],
         exercises:[]
     })
-
-  /*  const DB = {
-        name:'Juan Cristobal',
-        routines:[
-            { 
-                name:"Espalda",
-                done:6,
-                time:"48:30min",
-                exercises:[
-                    {
-                        nameExercise:"Pull ups",
-                        series:4,
-                        reps:12
-                    },
-                    {
-                        nameExercise:"Pull ups",
-                        series:4,
-                        reps:12
-                    },
-                    {
-                        nameExercise:"Pull ups",
-                        series:4,
-                        reps:12
-                    }
-                ]
-            },
-            { 
-                name:"Piernas",
-                done:4,
-                time:"66:6",
-                exercises:[
-                    {
-                        nameExercise:"Pull ups",
-                        series:4,
-                        reps:12
-                    },
-                    {
-                        nameExercise:"Pull ups",
-                        series:4,
-                        reps:12
-                    },
-                    {
-                        nameExercise:"Pull ups",
-                        series:4,
-                        reps:12
-                    }
-                ]
-            }
-        ],
-        folders:[
-            {
-              name:"Tiron",
-              routines:[]
-            },
-            {
-              name:"Empuje",
-              routines:[{ 
-                name:"Espalda",
-                done:6,
-                time:"48:30min",
-                exercises:[
-                    {
-                        nameExercise:"Pull ups",
-                        series:4,
-                        reps:12
-                    },
-                    {
-                        nameExercise:"Pull ups",
-                        series:4,
-                        reps:12
-                    },
-                    {
-                        nameExercise:"Pull ups",
-                        series:4,
-                        reps:12
-                    }
-                ]
-            },{ 
-                name:"Espalda",
-                done:6,
-                time:"48:30min",
-                exercises:[
-                    {
-                        nameExercise:"Pull ups",
-                        series:4,
-                        reps:12
-                    },
-                    {
-                        nameExercise:"Pull ups",
-                        series:4,
-                        reps:12
-                    },
-                    {
-                        nameExercise:"Pull ups",
-                        series:4,
-                        reps:12
-                    }
-                ]
-            }]
-            }
-          ]
-    } */
-    
     const UserDB = itemLocalStorage
     const AlterUserDB = saveItemLocalStorage
-    const [vision,setVision] = React.useState('dashboard')
-    const [panelAdd,setPanelAdd] = React.useState(false)
-    const [list,setList] = React.useState([])
-    const [dataForm,setDataForm] = React.useState({})
-    console.log(dataForm)
-    const [exercises,setExercises] = React.useState(UserDB.exercises)
-    const [formCreate,setFormCreate] = useState({
-        name:null,
-        muscle:null,
-        type:null
-    })
-    const [modal, setModal] = React.useState('select')
-  
-  
-    function AddSerie(exercise){
-      const nameSerie = exercise[0]
-      const newSerie = [...list]
-      newSerie.forEach(serie => {
-        if(serie[0] == nameSerie){
-          serie.push(nameSerie)
+    const [error,setError] = useState({error:false,typeError:null})
+    const [vision,setVision] = useState('dashboard')
+    const [counter,setCounter] = useState(0)
+    const [panelAdd,setPanelAdd] = useState(false)
+    const [listExercises,setListExercises] = useState([...UserDB.exercises])
+    const [listOnPlay,setListOnPlay] = useState([])
+    const [dataForm,setDataForm] = useState({})
+    const [formCreate,setFormCreate] = useState(
+        {
+            name:null,
+            muscle:null,
+            type:null
         }
-      })
-      setList(newSerie)
-    }
-    function selectExercise(nameExercise){
-        const indexArray = exercises.findIndex(item => item.name == nameExercise)
-        const newList = [...exercises]
-
-        newList.forEach(item => {
-            item.select = false
-        })
-
-        newList[indexArray].select = true
-        setExercises(newList)
-    }   
-
-    function addExerciseToList(){
-        const exerciseSelect = exercises.filter(select => select.select == true)
-        if(!exerciseSelect){console.log('Selecciona algo')}
-        else{
-            const nameExerciseSelect = exerciseSelect[0].name
-            const newExercisesList = exercises.filter(item => item.name !== nameExerciseSelect)
-            const newList = [...list]
-            let error = undefined
-            list.forEach(itemList => {
-                if(itemList == nameExerciseSelect ){
-                    console.log('No puedes agregar dos veces el mismo ejercicio')
-                    error = true
-                }
-            })
-            if(!error){
-                newList.push([nameExerciseSelect])
-                setList(newList)
-                setExercises(newExercisesList)
-                setPanelAdd(false)
-            }
+    )
+    const [modal, setModal] = useState('select')
+    const [routine,setRoutine] = useState(
+        {
+            name:null,
+            key:null,
+            time:null,
+            endpoints:null,
+            exercises:[],
+            active:null
+        }
+    )
+    //Change Modal
+    
+    function changeVision(vision){
+        if(vision === "dashboard"){
+            setPanelAdd(!panelAdd)
+            setVision(vision)
+            setListOnPlay([])
+        }else if(vision === "addRoutine"){
+            setVision(vision)
         }
     }
 
-    function createExercise(event){
-        event.preventDefault()
-        const newExercise = {
-            name:dataForm.name,
-            muscle:dataForm.muscle,
-            type:dataForm.type,
-            reps:null,
-            series:null,
-            select:false,
-            key:UserDB.exercises.length + 1
-        }
-        const newUserDB = {...itemLocalStorage}
-        newUserDB.exercises.push(newExercise)
-        AlterUserDB('UserDB',newUserDB)
-        setModal("select")
-
-    }
+    // Forms
 
     function getDataForm(event,name){
-        const data = dataForm
+        const data = {...dataForm}
         data[name] = event.target.value
         setDataForm(data)
     }
 
+    // Crud Exercises
+
+    function createExercise(event){
+        event.preventDefault()
+        const data = {...dataForm}
+        const DB = UserDB
+        const index = DB.exercises.findIndex(item => item.name === data["name"])
+        if(index >= 0){
+            setError({error:true,typeError:"Ya existe un ejercicio con el mismo nombre"})
+        }else{
+            if(data["name"] && data["type"] && data["muscle"]){
+                data["series"] = []
+                data["select"] = false
+                const newDataUser = {...UserDB}
+                newDataUser.exercises.push(data)
+                setModal("select")
+                AlterUserDB('UserDB',newDataUser)
+                setListExercises([...UserDB.exercises])
+            }else{
+                setError({error:true,typeError:"Rellena todos los campos"})
+            }
+        }
+    }
+
+    function AddSerie(nameExercise){
+        const newListExercises = [...listOnPlay]
+        const exercise = newListExercises.findIndex(item => item.name === nameExercise)
+        const id = newListExercises[exercise].series.length + 1
+        newListExercises[exercise]["series"].push({id:id,reps:0})
+        setListOnPlay(newListExercises)
+
+    }
+
+    function deleteSerie(nameExercise,nSerie){
+        const newSeries = [...listOnPlay]
+        const indexExercise = listOnPlay.findIndex(item => item.name === nameExercise)
+        const series = newSeries[indexExercise]["series"]
+        const indexSerie = series.findIndex(serie => serie.id === nSerie)
+        series.splice(indexSerie,1)
+        for(var i = 0; i < series.length; i++){
+            series[i].id = i + 1
+        }
+        newSeries[indexExercise]["series"] = series
+        setListOnPlay(newSeries)
+        
+    }
+
+    // Crud Select of the List
+
+    function selectOnList(nameExercise){
+        const newListSelect = [...listExercises]
+        newListSelect.forEach(exercise => {
+            if(exercise.name === nameExercise){
+                exercise.select = true
+            }else{
+                exercise.select = false
+            }
+        })
+        setListExercises(newListSelect)
+    }
+    function addExerciseToList(){
+        const newListOnPlay = [...listOnPlay]
+        const indexItemToAdd = listExercises.findIndex(exercise => exercise.select === true)
+        if(indexItemToAdd >= 0){
+            const indexOnPlay = newListOnPlay.findIndex(exercise => exercise.name === listExercises[indexItemToAdd].name)
+            if(indexOnPlay < 0){
+                newListOnPlay.push(listExercises[indexItemToAdd])
+                setListOnPlay(newListOnPlay)
+                setPanelAdd(!panelAdd)
+                setModal("select")
+            }else{
+                setError({error:true,typeError:"No puedes repetir el ejercicio"})
+            }
+        }else{
+            setError({error:true,typeError:"Debes seleccionar un ejercicio"})
+        }
+    }
+    
+    function formRoutine(element,name,exerciseName){
+        const Routine = {...routine}
+        if(name === "title"){
+            Routine["name"] = element.target.value
+        }else{
+            const indexExercise = Routine.exercises.findIndex(item => item.name === exerciseName)
+            if(indexExercise < 0){
+                Routine.exercises.push({name:exerciseName,serie:[{id:name,reps:element.target.value}]})
+            }else{
+                const serieIndex = Routine.exercises[indexExercise].serie.findIndex(id => id.id === name)
+                if(serieIndex < 0){
+                    Routine.exercises[indexExercise].serie.push({id:name,reps:element.target.value})
+                }else{
+                    Routine.exercises[indexExercise].serie[serieIndex]["reps"] = element.target.value
+                }
+            }
+        }
+        setRoutine(Routine)
+    }
+
+    function AddRoutine(){
+        const Routine = {...routine}
+        if(Routine.name !== null){
+            if(Routine.exercises.length === listOnPlay.length){
+                const newDB = {...UserDB}
+                newDB.routines.push(Routine)
+                AlterUserDB('UserDB',newDB)
+                changeVision('dashboard')
+            }else{
+                setError({error:true,typeError:"No puedes dejar un ejercicio en blanco"})
+            }
+        }else{
+            setError({error:true,typeError:"Debes asignar un nombre a la rutina"})
+        }
+        
+    }
     return(
         <AppContext.Provider
         value = {{
             vision,setVision,
             panelAdd,setPanelAdd,
-            exercises,setExercises,
-            list,setList,
             modal,setModal,
             UserDB,AlterUserDB,
             formCreate,setFormCreate,
-            AddSerie,
-            selectExercise,
+            counter,setCounter,
+            listOnPlay,setListOnPlay,
+            error,setError,
+            listExercises,
+            selectOnList,
             addExerciseToList,
             createExercise,
-            getDataForm
+            getDataForm,
+            AddSerie,
+            formRoutine,
+            AddRoutine,
+            changeVision,
+            deleteSerie
         }}
         >
             {children}
