@@ -1,5 +1,6 @@
 import React from "react";
 import { AppContext } from "../../hooks/AppContext";
+import "./Exercise.scss"
 
 function Exercise({children,exercise}){
     const {AddSerie} = React.useContext(AppContext)
@@ -8,7 +9,9 @@ function Exercise({children,exercise}){
         key={exercise}
         >
             {children}
-            <button onClick={() => AddSerie(exercise)}>+</button>
+            <div className="divAddSerie">
+                <button onClick={() => AddSerie(exercise)}>+ Agregar serie</button>
+            </div>
         </div>
     )
 }

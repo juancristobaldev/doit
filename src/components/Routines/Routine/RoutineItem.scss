@@ -9,8 +9,7 @@
   background-color: #4a4a4a;
   min-width: 46vw;
   min-height: 46vw;
-  max-width: 46vw;
-  max-height: 46vw;
+  padding: 0.25rem 0;
   border-radius: 0.5rem;
   margin: 2vw;
   display: inline-grid;
@@ -40,12 +39,17 @@
   .divButton {
     @include dflex(center, center, row);
     button {
+      transition: 0.25s;
       padding: 0.25rem 2rem;
       font-size: 0.5rem;
-      border-radius: 1rem;
-      border: 0;
-      background-color: black;
+      border: 1px solid white;
+      background-color: transparent;
       color: white;
+      &:hover {
+        background: black;
+        border: 1px solid black;
+        transform: scale(1.1);
+      }
     }
   }
 }

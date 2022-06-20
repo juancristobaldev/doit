@@ -2,7 +2,11 @@ import React from "react";
 import './RoutineItem.scss'
 import { RiTimerFill } from 'react-icons/ri';
 import { RiFlag2Fill } from 'react-icons/ri'
-function RoutineItem({name,nExercises,done,time}){
+
+const goRoutine = () => {
+    
+}
+function RoutineItem({name,nExercises,done,time,routine}){
     return(
         <div className="routineItem">
             <div className="nameExercise">
@@ -22,7 +26,7 @@ function RoutineItem({name,nExercises,done,time}){
                 </div>
             </div>
             <div className="divButton">
-                <button>GO</button>
+                <button onClick={() => goRoutine(routine)}>GO</button>
             </div>
         </div>
     )

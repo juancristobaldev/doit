@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import {GiHamburgerMenu} from "react-icons/gi"
+import {AiOutlineRight} from "react-icons/ai"
+import { AppContext } from "../../hooks/AppContext";
 import './Nav.scss'
-function Nav(){
+function Nav({children}){
     return(
             <nav className="Nav">
                 <div>
@@ -14,10 +16,12 @@ function Nav(){
                     </div>
                 </div>
                 <div>
-                    <GiHamburgerMenu
-                    fill="silver"
-                    />
+                        <GiHamburgerMenu
+                        fill="silver"
+                        cursor="pointer"
+                        />
                 </div>
+                {children}
             </nav>
         )
 }

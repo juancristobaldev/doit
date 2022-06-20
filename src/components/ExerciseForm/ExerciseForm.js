@@ -2,6 +2,10 @@ import React from "react";
 import { AppContext } from "../../hooks/AppContext";
 import { Form } from "../Form/Form";
 import { FormControl } from "../FormControl/FormControl";
+import { IoMdClose } from "react-icons/io"
+import { IoMdSearch } from "react-icons/io";
+import { List } from "../List/List";
+import "./ExerciseForm.scss"
 
 function ExercisesForm(){
     const {
@@ -13,36 +17,67 @@ function ExercisesForm(){
         addExerciseToList,
         selectOnList,
         getDataForm,
+        panelAdd,setPanelAdd
     } = React.useContext(AppContext)
     return(
-        <div>
+        <div className="background">
+            <div className="modalMenu">
             {modal === "select" && 
             <React.Fragment>
-                {UserDB.exercises.length === 0 && "Crea tu primer ejercicio"}
+                <div className="titleMenu">
+                    <h3>Lista de ejercicios</h3>
+                    <IoMdClose onClick={() => setPanelAdd(!panelAdd)}/>
+                </div>
+                <div className="divInput">
+                    <input placeholder="Buscar ejercicio..." type="text"/>
+                    <IoMdSearch/>
+                </div>
+                {UserDB.exercises.length === 0 && <p className="emptyExercises">Crea tu primer ejercicio <br/> 🏋🏻</p>}
                 {UserDB.exercises.length > 0 &&
+                <List className="exercisesList">
+                {
                     listExercises.map(exercise => 
-                        <div
+                        <div 
+                            className="itemExerciseSelect"
                             style={
                                 exercise.select ? 
-                                {background:"black",color:"white"} : {background:"white",color:"black"}
+                                {
+                                    border:"1px solid black",
+                                    borderRadius:"0.5rem"
+                                } : {
+                                    border:"1px solid transparent"
+                                }
                             }
                             onClick={() => selectOnList(exercise.name)}
                             key={exercise.name}
-                            >{exercise.name}
+                            >
+                            <p>{exercise.name}</p>
+                            <div 
+                            style={ exercise.select ? 
+                            {
+                                background:"black"
+                            }:{}}
+                            className="circle"></div>
                         </div>            
                     )
+                }                       
+                </List>
                 }
-                <button 
-                onClick={() => setModal("create")}
-                >
-                Crear ejercicio
-                </button>
+                <div className="divButtons">
+                    <button 
+                    className="buttonCreate"
+                    onClick={() => setModal("create")}
+                    >
+                    Crear ejercicio
+                    </button>
 
-                <button 
-                onClick={() => addExerciseToList()}
-                >
-                Agregar a la rutina
-                </button>
+                    <button
+                    className="buttonAdd"
+                    onClick={() => addExerciseToList()}
+                    >
+                    Agregar a la rutina
+                    </button>
+                </div>
             </React.Fragment>
             }
             {modal == "create" && 
@@ -79,6 +114,7 @@ function ExercisesForm(){
                     </Form>
                 </React.Fragment>
             }
+        </div>
         </div>
     )
 }

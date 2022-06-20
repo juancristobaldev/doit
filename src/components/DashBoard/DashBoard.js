@@ -1,8 +1,5 @@
 import React, { useContext } from "react";
 import { Main } from "../Main/Main";
-import { Header } from "../Header/Header";
-import { HelloUser } from "../HelloUser/HelloUser";
-import { LastTrain } from "../LastTrain/LastTrain";
 import { Section } from "../Section/Section";
 import { AddSomething } from "../AddSomething/AddSomething";
 import { List } from "../List/List"
@@ -16,16 +13,28 @@ function DashBoard(){
     const {UserDB} = useContext(AppContext)
     return(
         <Main className="dashboard">
-        <Nav></Nav>
+        <Nav/>
         <Section className="sectionRoutines">
-          <AddSomething
-          alter="addRoutine"
-          className="addRoutine"
-          />
-          <List style={UserDB.routines.length == 0 && {opacity:"50%",display:"flex",justifyContent:"center",alignItems:"center",textAlign:"center"}} className="ListRoutines">
+        <AddSomething
+        alter="addRoutine"
+        className="addRoutine"
+        />
+        <List 
+        style={UserDB.routines.length == 0 ? 
+          {
+            opacity:"50%",
+            display:"flex",
+            justifyContent:"center",
+            alignItems:"center",
+            textAlign:"center"
+          }:{
+              overflowY:"auto"
+            }
+        } className="ListRoutines">
           {UserDB.routines.length == 0 && <p>No hay rutinas <br/> 🏋🏻 </p>}
           {UserDB.routines.map(routine => (
             <RoutineItem
+            routine={routine}
             name={routine.name}
             nExercises={routine.exercises.length}
             done={routine.done ? routine.done : 0}
@@ -33,7 +42,7 @@ function DashBoard(){
             key={routine.name}
             />
           ))}
-          </List>
+        </List>
         </Section>
         <Section className="sectionFolder">
           <AddSomething

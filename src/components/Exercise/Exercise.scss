@@ -1,0 +1,80 @@
+.itemExercise {
+  background-color: #4a4a4a;
+  width: 95%;
+  margin: 0.5em 2.5%;
+  border-radius: 0.25rem;
+  .exerciseData {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1rem;
+    align-items: center;
+    height: 5vh;
+    color: white;
+    svg {
+      cursor: pointer;
+    }
+  }
+  .exerciseGridName,
+  .serie {
+    display: grid;
+    grid-template-columns: 20% 50% 20% 10%;
+    place-items: center;
+  }
+
+  .back {
+    padding: 0.25em;
+    color: white;
+    background: linear-gradient(to bottom, #313131 0%, #4a4a4a 100%);
+    .exerciseGridName {
+      padding: 0.5rem 0;
+      .repsName {
+        grid-area: 1 / 3 / 2 / 4;
+      }
+    }
+    .serie {
+      margin: 0.5rem 0;
+      .nameSerie {
+        justify-self: start;
+      }
+      .nSerie {
+        place-self: center;
+        background-color: #4e4d4d;
+        padding: 0.75em 1em;
+        border-radius: 0.25em;
+      }
+      .repsInput {
+        background-color: #c9c9c9;
+        border: 0;
+        border-radius: 0.25em;
+        width: 60%;
+        height: 80%;
+        grid-area: 1 / 3 / 2 / 4;
+        &:focus {
+          outline: none;
+        }
+      }
+      .deleteSerie {
+        grid-area: 1 / 4 / 2 / 5;
+        padding: 0;
+        width: 90%;
+        height: 80%;
+        background-color: transparent;
+        border: 0;
+        svg {
+          cursor: pointer;
+          width: 1.25em;
+          height: 1.25em;
+          color: white;
+        }
+      }
+    }
+  }
+  .divAddSerie {
+    height: 6vh;
+    button {
+      height: 4vh;
+      margin: 1vh 5%;
+      width: 90%;
+    }
+  }
+}

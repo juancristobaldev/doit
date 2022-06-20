@@ -37,6 +37,7 @@ function AppProvider({children}){
             active:null
         }
     )
+    const [nav,setNav] = useState(false)
     //Change Modal
     
     function changeVision(vision){
@@ -46,6 +47,7 @@ function AppProvider({children}){
             setListOnPlay([])
         }else if(vision === "addRoutine"){
             setVision(vision)
+            setPanelAdd(false)
         }
     }
 
@@ -110,7 +112,11 @@ function AppProvider({children}){
         const newListSelect = [...listExercises]
         newListSelect.forEach(exercise => {
             if(exercise.name === nameExercise){
-                exercise.select = true
+                if(exercise["select"] === true){
+                    exercise.select = false
+                }else{
+                    exercise.select = true
+                }
             }else{
                 exercise.select = false
             }
@@ -182,6 +188,7 @@ function AppProvider({children}){
             counter,setCounter,
             listOnPlay,setListOnPlay,
             error,setError,
+            nav,setNav,
             listExercises,
             selectOnList,
             addExerciseToList,

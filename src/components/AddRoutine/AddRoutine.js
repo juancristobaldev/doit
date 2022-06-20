@@ -10,6 +10,7 @@ import { ExercisesForm } from "../ExerciseForm/ExerciseForm"
 import { Modal } from "../Modal/Modal";
 import { Footer } from "../Footer/Footer";
 import { IoMdClose } from "react-icons/io"
+import {BsThreeDots} from "react-icons/bs"
 import { Error } from "../Error/Error";
 
 
@@ -41,18 +42,26 @@ function AddRoutine(){
         {listOnPlay.length > 0 && listOnPlay.map(
           exercise => 
           <Exercise exercise={exercise.name}>
-              <div>
+              <div className="exerciseData">
                 <p>{exercise.name}</p>
-                <p>{exercise.type}</p>
                 <p>{exercise.muscle}</p>
+                <BsThreeDots/>
               </div>
-            {exercise["series"].map(item =>
-                <div>
-                    <p>{item.id}</p>
-                    <input name={item.id} onChange={(element) => formRoutine(element,item.id,exercise.name)} type={"number"}/>
-                    <button onClick={() => deleteSerie(exercise.name,item.id)}>X</button>
-                </div>
-            )}
+              <div className="back">
+              <div className="exerciseGridName">
+                <p className="serieName">Serie</p>
+                <p className="repsName">Reps</p>
+                {exercise.type === "Peso ponderado"}
+              </div>
+                  {exercise["series"].map(item =>
+                    <div className="serie">
+                        <p className="nSerie">{item.id}</p>
+                        <p className="nameSerie">{exercise.name}</p>
+                        <input className="repsInput" name={item.id} onChange={(element) => formRoutine(element,item.id,exercise.name)} type={"number"}/>
+                        <button className="deleteSerie" onClick={() => deleteSerie(exercise.name,item.id)}><IoMdClose/></button>
+                    </div>
+                  )}
+              </div>
           </Exercise>
         )}
         </List>
