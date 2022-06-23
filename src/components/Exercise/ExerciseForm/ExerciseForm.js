@@ -2,11 +2,11 @@ import React from "react";
 import { AppContext } from "../../../hooks/AppContext";
 import { Form } from "../../Form/Form";
 import { FormControl } from "../../Form/FormControl/FormControl";
-import { IoMdClose } from "react-icons/io"
 import { IoMdSearch } from "react-icons/io";
 import { List } from "../../List/List";
 import "./ExerciseForm.scss"
 import { ListExercises } from "../../List/ListExercises";
+import { TitleMenu } from "../../Routines/Title/TitleMenu";
 
 function ExercisesForm(){
     const {
@@ -21,13 +21,25 @@ function ExercisesForm(){
     } = React.useContext(AppContext)
     return(
         <div className="background">
-            <div className="modalMenu">
+            <div 
+            style={modal === 'select' ? 
+                {
+                    gridTemplate:"7.5vh 6vh 1fr 15vh / 100%"
+                }
+                : 
+                {
+                    gridTemplate:null,
+                    height:"auto",
+                    margin:"25vh 10%"
+                }
+            }
+            className="modalMenu">
             {modal === "select" && 
             <React.Fragment>
-                <div className="titleMenu">
-                    <h3>Lista de ejercicios</h3>
-                    <IoMdClose onClick={() => setPanelAdd(!panelAdd)}/>
-                </div>
+                <TitleMenu
+                className="titleMenu"
+                text="Lista de ejercicios"
+                />
                 <div className="divInput">
                     <input placeholder="Buscar ejercicio..." type="text"/>
                     <IoMdSearch/>
@@ -58,16 +70,23 @@ function ExercisesForm(){
             {modal == "create" && 
                 <React.Fragment>
                     <Form
-                        onSubmit={(e) => createExercise(e)}
-                    >
+                    className="formCreate"
+                    onSubmit={(e) => createExercise(e)}
+                    >                   
+                        <TitleMenu
+                        className="titleMenu"
+                        text="Crear ejercicio"
+                        />
                         <FormControl
                         as={"input"}
+                        className="divControl"
                         name="name"
                         onChange={getDataForm}  
                         label={"Nombre del ejercicio:"}
                         />
                         <FormControl
                         as={"select"}
+                        className="divControl"
                         name="muscle"
                         label={"Musculo dominante:"}
                         onChange={getDataForm} 
@@ -78,6 +97,7 @@ function ExercisesForm(){
                         </FormControl>
                         <FormControl
                         as={"select"} 
+                        className="divControl"
                         name="type"
                         label={"Tipo de ejercicio:"}
                         onChange={getDataForm}

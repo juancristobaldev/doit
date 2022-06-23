@@ -8,7 +8,7 @@ import { ExercisesForm } from "../Exercise/ExerciseForm/ExerciseForm";
 import { Modal } from "../Modal/Modal";
 import { Exercise } from "../Exercise/Exercise";
 import { Main } from "../Main/Main";
-import { TitleRoutine } from "./TitleRoutine/TitleRoutine";
+import { TitleRoutine } from "./Title/TitleRoutine";
 import {ProgressiveCount} from "./ProgressiveCount/ProgressiveCount"
 import "./GoRoutine.scss"
 import { Temporizador } from "./Temporizador/Temporizador";

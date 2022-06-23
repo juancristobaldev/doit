@@ -25,7 +25,7 @@ function Exercise({objExercise,exercise,mode}){
                         <p className="nameSerie">{exercise}</p>
                         <input className="repsInput" 
                         name={item.id} 
-                        value={item.reps}
+                        value={item.reps ? item.reps : null}
                         onChange={(element) => formRoutine(element,item.id,exercise)
                         } 
                         type={"number"}/>

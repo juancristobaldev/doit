@@ -1,6 +1,5 @@
 .modalMenu {
   display: grid;
-  grid-template-rows: 7.5vh 6vh 1fr 15vh;
   position: absolute;
   top: 0;
   width: 80%;
@@ -85,6 +84,35 @@
     }
     .buttonAdd {
       background-color: black;
+      color: white;
+    }
+  }
+  .formCreate {
+    height: 50vh;
+    display: grid;
+    grid-template: repeat(5, 1fr) / 100%;
+    .divControl {
+      display: flex;
+      flex-direction: column;
+      padding: 0rem 1rem;
+      align-self: center;
+      label {
+        margin-bottom: 0.25rem;
+      }
+      input {
+        padding: 0.25rem;
+      }
+      select {
+        padding: 0.25rem;
+      }
+    }
+    .addExercise {
+      place-self: center;
+      height: 60%;
+      width: 95%;
+      border: 0;
+      border-radius: 0.25rem;
+      background-color: #000000;
       color: white;
     }
   }
