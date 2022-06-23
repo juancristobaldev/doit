@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import './RoutineItem.scss'
 import { RiTimerFill } from 'react-icons/ri';
-import { RiFlag2Fill } from 'react-icons/ri'
+import { AiFillTrophy } from 'react-icons/ai'
+import { AppContext } from "../../../hooks/AppContext";
 
-const goRoutine = () => {
-    
-}
 function RoutineItem({name,nExercises,done,time,routine}){
+    const {goRoutine} = useContext(AppContext)
+
     return(
         <div className="routineItem">
             <div className="nameExercise">
@@ -17,7 +17,7 @@ function RoutineItem({name,nExercises,done,time,routine}){
                     <p>Ejercicios: {nExercises}</p>
                 </div>
                 <div className="done">
-                    <RiFlag2Fill/>
+                    <AiFillTrophy/>
                     <p>{done}</p>
                 </div>
                 <div className="time">

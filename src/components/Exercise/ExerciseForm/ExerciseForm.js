@@ -1,18 +1,18 @@
 import React from "react";
-import { AppContext } from "../../hooks/AppContext";
-import { Form } from "../Form/Form";
-import { FormControl } from "../FormControl/FormControl";
+import { AppContext } from "../../../hooks/AppContext";
+import { Form } from "../../Form/Form";
+import { FormControl } from "../../Form/FormControl/FormControl";
 import { IoMdClose } from "react-icons/io"
 import { IoMdSearch } from "react-icons/io";
-import { List } from "../List/List";
+import { List } from "../../List/List";
 import "./ExerciseForm.scss"
+import { ListExercises } from "../../List/ListExercises";
 
 function ExercisesForm(){
     const {
         UserDB,
         modal,
         setModal,
-        listExercises,
         createExercise,
         addExerciseToList,
         selectOnList,
@@ -34,34 +34,9 @@ function ExercisesForm(){
                 </div>
                 {UserDB.exercises.length === 0 && <p className="emptyExercises">Crea tu primer ejercicio <br/> 🏋🏻</p>}
                 {UserDB.exercises.length > 0 &&
-                <List className="exercisesList">
-                {
-                    listExercises.map(exercise => 
-                        <div 
-                            className="itemExerciseSelect"
-                            style={
-                                exercise.select ? 
-                                {
-                                    border:"1px solid black",
-                                    borderRadius:"0.5rem"
-                                } : {
-                                    border:"1px solid transparent"
-                                }
-                            }
-                            onClick={() => selectOnList(exercise.name)}
-                            key={exercise.name}
-                            >
-                            <p>{exercise.name}</p>
-                            <div 
-                            style={ exercise.select ? 
-                            {
-                                background:"black"
-                            }:{}}
-                            className="circle"></div>
-                        </div>            
-                    )
-                }                       
-                </List>
+                <ListExercises
+                    className={"exercisesList"}
+                />
                 }
                 <div className="divButtons">
                     <button 

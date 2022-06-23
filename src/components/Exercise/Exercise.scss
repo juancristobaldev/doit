@@ -1,7 +1,6 @@
 .itemExercise {
-  background-color: #4a4a4a;
-  width: 95%;
-  margin: 0.5em 2.5%;
+  background-color: #242222;
+  margin: 1rem 1em;
   border-radius: 0.25rem;
   .exerciseData {
     display: flex;
@@ -24,7 +23,7 @@
   .back {
     padding: 0.25em;
     color: white;
-    background: linear-gradient(to bottom, #313131 0%, #4a4a4a 100%);
+    background: linear-gradient(to bottom, #242222 0%, #1d1c1c 100%);
     .exerciseGridName {
       padding: 0.5rem 0;
       .repsName {
@@ -38,19 +37,25 @@
       }
       .nSerie {
         place-self: center;
-        background-color: #4e4d4d;
+        background-color: #3f3f3f;
         padding: 0.75em 1em;
         border-radius: 0.25em;
       }
       .repsInput {
-        background-color: #c9c9c9;
+        background-color: #3f3f3f;
         border: 0;
         border-radius: 0.25em;
         width: 60%;
         height: 80%;
+        color: white;
+        text-align: center;
         grid-area: 1 / 3 / 2 / 4;
         &:focus {
           outline: none;
+        }
+        &::-webkit-inner-spin-button,
+        ::-webkit-outer-spin-button {
+          -webkit-appearance: none;
         }
       }
       .deleteSerie {

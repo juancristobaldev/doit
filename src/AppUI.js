@@ -1,7 +1,8 @@
 import React from "react";
-import { AddRoutine } from "./components/AddRoutine/AddRoutine";
 import { AppContext } from "./hooks/AppContext";
 import { DashBoard } from "./components/DashBoard/DashBoard";
+import { AddRoutine } from "./components/Routines/AddRoutine/AddRoutine"
+import { GoRoutine } from "./components/Routines/GoRoutine";
 import './App.scss'
 
 function AppUI() {
@@ -17,6 +18,7 @@ function AppUI() {
       {vision == "dashboard" && <DashBoard/>}
       {vision == "addRoutine" && <AddRoutine/>}
       {vision == "addFolder" && <div>Add Folder</div>}
+      {vision == "goRoutine" && <GoRoutine/>}
     </React.Fragment>
   );
 }

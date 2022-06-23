@@ -37,7 +37,7 @@ function AppProvider({children}){
             active:null
         }
     )
-    const [nav,setNav] = useState(false)
+    const [routineOnPlay,setRoutineOnPlay] = useState(null)
     //Change Modal
     
     function changeVision(vision){
@@ -58,9 +58,7 @@ function AppProvider({children}){
         data[name] = event.target.value
         setDataForm(data)
     }
-
     // Crud Exercises
-
     function createExercise(event){
         event.preventDefault()
         const data = {...dataForm}
@@ -84,9 +82,9 @@ function AppProvider({children}){
     }
 
     function AddSerie(nameExercise){
-        const newListExercises = [...listOnPlay]
-        const exercise = newListExercises.findIndex(item => item.name === nameExercise)
-        const id = newListExercises[exercise].series.length + 1
+        const newListExercises = [...listOnPlay],
+        exercise = newListExercises.findIndex(item => item.name === nameExercise),
+        id = newListExercises[exercise].series.length + 1;
         newListExercises[exercise]["series"].push({id:id,reps:0})
         setListOnPlay(newListExercises)
 
@@ -141,6 +139,8 @@ function AppProvider({children}){
         }
     }
     
+    //Routines
+
     function formRoutine(element,name,exerciseName){
         const Routine = {...routine}
         if(name === "title"){
@@ -161,8 +161,9 @@ function AppProvider({children}){
         setRoutine(Routine)
     }
 
+
     function AddRoutine(){
-        const Routine = {...routine}
+        const Routine = {...routine} 
         if(Routine.name !== null){
             if(Routine.exercises.length === listOnPlay.length){
                 const newDB = {...UserDB}
@@ -177,6 +178,20 @@ function AppProvider({children}){
         }
         
     }
+
+    function goRoutine(routine){
+        const newListOnPlay = []
+        routine["exercises"].forEach(exercise => {
+            const id = UserDB.exercises.findIndex(item => item.name === exercise.name)
+            const newObject = {...UserDB.exercises[id]}
+            newObject["series"] = exercise.serie
+            console.log(newObject["series"])
+            newListOnPlay.push(newObject)
+        })
+        setRoutine(routine)
+        setListOnPlay(newListOnPlay)
+        setVision("goRoutine")
+    }
     return(
         <AppContext.Provider
         value = {{
@@ -187,9 +202,10 @@ function AppProvider({children}){
             formCreate,setFormCreate,
             counter,setCounter,
             listOnPlay,setListOnPlay,
+            routine,setRoutine,
             error,setError,
-            nav,setNav,
             listExercises,
+            routineOnPlay,
             selectOnList,
             addExerciseToList,
             createExercise,
@@ -198,7 +214,8 @@ function AppProvider({children}){
             formRoutine,
             AddRoutine,
             changeVision,
-            deleteSerie
+            deleteSerie,
+            goRoutine,
         }}
         >
             {children}

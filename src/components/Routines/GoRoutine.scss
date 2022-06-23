@@ -1,0 +1,30 @@
+main.mainGoRoutine {
+  display: grid;
+  grid-template: 5vh 10vh 10vh 55vh repeat(2, 10vh) / 100%;
+  .divRoutine {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    .titleRoutine {
+      color: white;
+    }
+    button {
+      height: 40%;
+    }
+  }
+  .stats {
+    display: grid;
+    align-self: center;
+    margin: 0rem 1rem;
+    color: white;
+  }
+  .buttonListExercises {
+    place-self: center;
+    height: 60%;
+  }
+  .ListOnPlay {
+    max-height: 55vh;
+    overflow: auto;
+  }
+}
