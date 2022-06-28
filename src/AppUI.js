@@ -8,9 +8,6 @@ import './App.scss'
 function AppUI() {
   const {
     vision,
-    panelAdd,
-    listOnPlay,
-    UserDB
         } = React.useContext(AppContext)
   
   return (

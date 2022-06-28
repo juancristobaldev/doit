@@ -11,7 +11,7 @@ import { Main } from "../Main/Main";
 import { TitleRoutine } from "./Title/TitleRoutine";
 import {ProgressiveCount} from "./ProgressiveCount/ProgressiveCount"
 import "./GoRoutine.scss"
-import { Temporizador } from "./Temporizador/Temporizador";
+import { MenuTimer } from "./MenuTimer/MenuTimer";
 import { Footer } from "../Footer/Footer";
 import { List } from "../List/List";
 
@@ -21,7 +21,7 @@ function GoRoutine(){
         <Main
         className="mainGoRoutine"
         >
-            <Temporizador/>
+            <MenuTimer/>
             <Section className="divRoutine">
                 <TitleRoutine
                     className="titleRoutine"
@@ -38,6 +38,7 @@ function GoRoutine(){
                     <Exercise
                     exercise={exercise.name}
                     objExercise={exercise}
+                    mode="onPlay"
                     />
                 )}
             </List>

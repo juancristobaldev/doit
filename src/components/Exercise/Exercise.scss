@@ -16,7 +16,6 @@
   .exerciseGridName,
   .serie {
     display: grid;
-    grid-template-columns: 20% 50% 20% 10%;
     place-items: center;
   }
 
@@ -31,7 +30,7 @@
       }
     }
     .serie {
-      margin: 0.5rem 0;
+      padding: 0.5rem 0;
       .nameSerie {
         justify-self: start;
       }
@@ -46,7 +45,7 @@
         border: 0;
         border-radius: 0.25em;
         width: 60%;
-        height: 80%;
+        height: 90%;
         color: white;
         text-align: center;
         grid-area: 1 / 3 / 2 / 4;
@@ -72,6 +71,9 @@
           color: white;
         }
       }
+    }
+    .serie.completed {
+      opacity: 15%;
     }
   }
   .divAddSerie {

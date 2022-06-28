@@ -1,0 +1,83 @@
+.temporizador {
+  display: grid;
+  grid-template: 10% 15% 1fr 10% 10% / 100%;
+  box-shadow: 1px 1px 10px rgba($color: #000000, $alpha: 1);
+  position: absolute;
+  height: 5vh;
+  background-color: #414141;
+  color: white;
+  border-radius: 0rem 0rem 0.5rem 0.5rem;
+  .titleCountdown {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0rem 1rem;
+    h3 {
+      font-size: 1rem;
+    }
+  }
+  .infoCountdown {
+    padding: 0rem 1rem;
+    place-self: center;
+  }
+  .listCountdowns {
+    place-self: center;
+    display: grid;
+    grid-template-rows: repeat(3, 0.5fr);
+    height: 50%;
+    width: 100%;
+    .itemCountdown {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-top: 0.5px solid rgb(45, 45, 45);
+      border-bottom: 0.5px solid rgb(45, 45, 45);
+    }
+  }
+  .countdown {
+    border: 1px solid silver;
+    display: grid;
+    height: 60%;
+    width: 60%;
+    grid-template: 60% 40% / 50% 50%;
+    place-self: center;
+    .algoritm {
+      grid-area: 1 / 1 / 2 / 3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      h2 {
+        font-size: 4rem;
+      }
+    }
+    .algoritmDown,
+    .algoritmUp {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      button {
+        width: 80%;
+        height: 50%;
+      }
+    }
+  }
+  .activador {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .createCountdown {
+    place-self: center;
+    button {
+      width: 85vw;
+      height: 5vh;
+    }
+  }
+  .countdownEmpty {
+    opacity: 50%;
+    place-self: center;
+    text-align: center;
+  }
+}

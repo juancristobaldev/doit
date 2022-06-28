@@ -8,7 +8,8 @@ function AppProvider({children}){
         name:'Juan Cristobal',
         routines:[],
         folders:[],
-        exercises:[]
+        exercises:[],
+        countdown:[]
     })
     const UserDB = itemLocalStorage
     const AlterUserDB = saveItemLocalStorage
@@ -18,6 +19,7 @@ function AppProvider({children}){
     const [panelAdd,setPanelAdd] = useState(false)
     const [listExercises,setListExercises] = useState([...UserDB.exercises])
     const [listOnPlay,setListOnPlay] = useState([])
+    console.log(listOnPlay)
     const [dataForm,setDataForm] = useState({})
     const [formCreate,setFormCreate] = useState(
         {
@@ -85,7 +87,7 @@ function AppProvider({children}){
         const newListExercises = [...listOnPlay],
         exercise = newListExercises.findIndex(item => item.name === nameExercise),
         id = newListExercises[exercise].series.length + 1;
-        newListExercises[exercise]["series"].push({id:id,reps:0})
+        newListExercises[exercise]["series"].push({id:id,reps:0,completed:false})
         setListOnPlay(newListExercises)
 
     }
@@ -152,7 +154,7 @@ function AppProvider({children}){
             }else{
                 const serieIndex = Routine.exercises[indexExercise].serie.findIndex(id => id.id === name)
                 if(serieIndex < 0){
-                    Routine.exercises[indexExercise].serie.push({id:name,reps:element.target.value})
+                    Routine.exercises[indexExercise].serie.push({id:name,reps:element.target.value,completed:false})
                 }else{
                     Routine.exercises[indexExercise].serie[serieIndex]["reps"] = element.target.value
                 }
@@ -182,15 +184,30 @@ function AppProvider({children}){
     function goRoutine(routine){
         const newListOnPlay = []
         routine["exercises"].forEach(exercise => {
+            exercise.serie.forEach(serie => 
+                serie["completed"] = false
+            )
             const id = UserDB.exercises.findIndex(item => item.name === exercise.name)
             const newObject = {...UserDB.exercises[id]}
             newObject["series"] = exercise.serie
-            console.log(newObject["series"])
             newListOnPlay.push(newObject)
         })
         setRoutine(routine)
         setListOnPlay(newListOnPlay)
         setVision("goRoutine")
+    }
+
+    function finishSerie(idSerie,nameExercise){
+        const newListOnPlay = [...listOnPlay]
+        const indexExercise = newListOnPlay.findIndex(item => item["name"] == nameExercise)
+        const indexSerie = newListOnPlay[indexExercise]["series"].findIndex(item => item.id === idSerie)
+        const serie = newListOnPlay[indexExercise]["series"][indexSerie]
+        if(serie["completed"] === false){
+            serie["completed"] = true
+        }else{
+            serie["completed"] = false
+        }
+        setListOnPlay(newListOnPlay)
     }
     return(
         <AppContext.Provider
@@ -216,6 +233,7 @@ function AppProvider({children}){
             changeVision,
             deleteSerie,
             goRoutine,
+            finishSerie
         }}
         >
             {children}

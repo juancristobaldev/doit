@@ -2,10 +2,12 @@ import React from "react";
 import { AppContext } from "../../hooks/AppContext";
 import "./Exercise.scss"
 import {BsThreeDots} from "react-icons/bs"
-import {IoMdClose} from "react-icons/io"
+import { IoMdClose } from "react-icons/io";
+import { CheckBox } from "../Routines/Checkbox/CheckBox";
 
 function Exercise({objExercise,exercise,mode}){
     const {AddSerie,formRoutine,deleteSerie} = React.useContext(AppContext)
+
     return(
         <div className="itemExercise"
         >
@@ -15,22 +17,47 @@ function Exercise({objExercise,exercise,mode}){
                 <BsThreeDots/>
               </div>
               <div className="back">
-              <div className="exerciseGridName">
+              <div className="exerciseGridName"
+                   style={mode == "onPlay" ? 
+                        {gridTemplateColumns: "20% 30% 20% 20% 10%"}
+                        :
+                        {gridTemplateColumns: "20% 50% 20% 10%"}
+                              }
+              >
                 <p className="serieName">Serie</p>
                 <p className="repsName">Reps</p>
               </div>
                   {objExercise["series"].map(item =>
-                    <div className="serie">
+                    <div className={item.completed == true ? "serie completed" : "serie" }  
+                    style={mode == "onPlay" ? 
+                        {gridTemplateColumns: "20% 30% 20% 20% 10%"}
+                        :
+                        {gridTemplateColumns: "20% 50% 20% 10%"}
+                    }
+                    >
                         <p className="nSerie">{item.id}</p>
                         <p className="nameSerie">{exercise}</p>
                         <input className="repsInput" 
                         name={item.id} 
-                        value={item.reps ? item.reps : null}
+                        value={mode === "onPlay" ? item.reps : null}
                         onChange={(element) => formRoutine(element,item.id,exercise)
                         } 
                         type={"number"}/>
-                        {mode == "onPlay" && <p>checkbox</p>}
-                        <button className="deleteSerie" onClick={() => deleteSerie(exercise,item.id)}><IoMdClose/></button>
+
+                        {mode == "onPlay" && 
+                        <CheckBox 
+                        serieID={item.id}
+                        exerciseName={exercise}
+                        completed={item.completed}
+                        />}
+
+                        <button className="deleteSerie" 
+                        style={mode == "onPlay" ? 
+                        {gridArea:"1 / 5 / 2 / 6"}
+                        :
+                        {gridArea:"1 / 4 / 2 / 5"}}
+
+                        onClick={() => deleteSerie(exercise,item.id)}><IoMdClose/></button>
                     </div>
                   )}
               </div>
