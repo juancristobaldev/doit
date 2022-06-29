@@ -9,17 +9,20 @@ function AppProvider({children}){
         routines:[],
         folders:[],
         exercises:[],
-        countdown:[]
+        countdown:[],
+        ends:0
     })
     const UserDB = itemLocalStorage
     const AlterUserDB = saveItemLocalStorage
-    const [error,setError] = useState({error:false,typeError:null})
+
+    const [error,setError] = useState({error:false,type:'next',typeError:null})
+    const [message,setMessage] = useState({message:false,typeMessage:null})
+
     const [vision,setVision] = useState('dashboard')
     const [counter,setCounter] = useState(0)
     const [panelAdd,setPanelAdd] = useState(false)
     const [listExercises,setListExercises] = useState([...UserDB.exercises])
     const [listOnPlay,setListOnPlay] = useState([])
-    console.log(listOnPlay)
     const [dataForm,setDataForm] = useState({})
     const [formCreate,setFormCreate] = useState(
         {
@@ -33,12 +36,18 @@ function AppProvider({children}){
         {
             name:null,
             key:null,
-            time:null,
+            timeRecord:null,
             endpoints:null,
             exercises:[],
             active:null
         }
     )
+
+    const [timeRoutine, setTimeRoutine] = useState({
+        hour:null,
+        min:null,
+        seg:null
+    })
     const [routineOnPlay,setRoutineOnPlay] = useState(null)
     //Change Modal
     
@@ -104,6 +113,19 @@ function AppProvider({children}){
         newSeries[indexExercise]["series"] = series
         setListOnPlay(newSeries)
         
+    }
+
+    function finishSerie(idSerie,nameExercise){
+        const newListOnPlay = [...listOnPlay]
+        const indexExercise = newListOnPlay.findIndex(item => item["name"] == nameExercise)
+        const indexSerie = newListOnPlay[indexExercise]["series"].findIndex(item => item.id === idSerie)
+        const serie = newListOnPlay[indexExercise]["series"][indexSerie]
+        if(serie["completed"] === false){
+            serie["completed"] = true
+        }else{
+            serie["completed"] = false
+        }
+        setListOnPlay(newListOnPlay)
     }
 
     // Crud Select of the List
@@ -192,23 +214,112 @@ function AppProvider({children}){
             newObject["series"] = exercise.serie
             newListOnPlay.push(newObject)
         })
+        setError({error:false,typeError:null,type:null})
         setRoutine(routine)
         setListOnPlay(newListOnPlay)
         setVision("goRoutine")
     }
 
-    function finishSerie(idSerie,nameExercise){
-        const newListOnPlay = [...listOnPlay]
-        const indexExercise = newListOnPlay.findIndex(item => item["name"] == nameExercise)
-        const indexSerie = newListOnPlay[indexExercise]["series"].findIndex(item => item.id === idSerie)
-        const serie = newListOnPlay[indexExercise]["series"][indexSerie]
-        if(serie["completed"] === false){
-            serie["completed"] = true
-        }else{
-            serie["completed"] = false
+    function routineFinish(){
+        setMessage(
+            {
+                message:true,
+                typeMessage:`¡Bien hecho guerrero!`
+            }
+        )
+        const changesRoutine = {...routine}
+        // Nombre de rutina
+        changesRoutine["name"] = routine.name
+        // Sumar veces finalizada la rutina
+        if(!changesRoutine["endpoints"]){
+            changesRoutine["endpoints"] = 1
+        } else{
+            changesRoutine["endpoints"] = routine.endpoints + 1
         }
-        setListOnPlay(newListOnPlay)
+        // Decidir tiempo record.
+        if(changesRoutine["timeRecord"]){
+            const hourRecord = parseInt(`${changesRoutine.timeRecord[0]}${changesRoutine.timeRecord[1]}`)
+            const minRecord = parseInt(`${changesRoutine.timeRecord[3]}${changesRoutine.timeRecord[4]}`)
+            const segRecord = parseInt(`${changesRoutine.timeRecord[6]}${changesRoutine.timeRecord[7]}`)
+            const hourRoutine = parseInt(timeRoutine.hour)
+            if(hourRecord == hourRoutine){
+                const minRoutine = parseInt(timeRoutine.min)
+                if(minRecord == minRoutine){
+                    const segRoutine = parseInt(timeRoutine.seg)
+                    if(segRecord == segRoutine){
+                        changesRoutine["timeRecord"] = changesRoutine["timeRecord"]
+                    }else{
+                        if(segRecord > segRoutine){
+                            changesRoutine["timeRecord"] = `${timeRoutine.hour}:${timeRoutine.min}:${timeRoutine.seg}`
+                        }else{
+                            changesRoutine["timeRecord"] = changesRoutine["timeRecord"];
+                        }
+                    }
+                }else{
+                    if(minRecord > minRoutine){
+                        changesRoutine["timeRecord"] = `${timeRoutine.hour}:${timeRoutine.min}:${timeRoutine.seg}`
+                    }else{
+                        changesRoutine["timeRecord"] = changesRoutine["timeRecord"];
+                    }
+                }
+            }else{
+                if(hourRoutine < hourRecord){
+                    changesRoutine["timeRecord"] = `${timeRoutine.hour}:${timeRoutine.min}:${timeRoutine.seg}`;
+                }else{
+                    changesRoutine["timeRecord"] = changesRoutine["timeRecord"];
+                }
+            }
+        }else{
+            const segundo = parseInt(timeRoutine.seg) + 1
+            const timeNow = `${timeRoutine.hour}:${timeRoutine.min}:${segundo <= 9 ? `0${segundo}` : segundo}`;
+            changesRoutine["timeRecord"] = timeNow
+        }
+      
+        //Guardar en el localStorage
+        const indexRoutine = UserDB.routines.findIndex(item => item.name === routine.name)
+        const newUserDB = {...UserDB}
+        newUserDB["routines"][indexRoutine] = changesRoutine
+        AlterUserDB('UserDB',newUserDB)
+
     }
+    function endRoutine(confirm){
+        const newListOnPlay = [...listOnPlay]
+        const seriesUnCompleted = []
+        
+        
+            newListOnPlay.forEach( exercise => {
+                exercise.series.forEach( serie => {
+                    if(serie.completed == false){
+                        const index = seriesUnCompleted.findIndex(item => item.name === exercise.name)
+                        if(index < 0){
+                            seriesUnCompleted.push({name:exercise.name, series:[{id:serie.id}]})
+                        }else{
+                            seriesUnCompleted[index].series.push({id:serie.id})
+                        }
+                    }
+                })
+            })
+            if(seriesUnCompleted.length > 0){
+                const error = "Has dejado series sin terminar... \n" + "¿Estas seguro que deseas continuar?"
+                setError({
+                    error:true,
+                    type:'next',
+                    typeError:error
+                })
+            }else{
+                routineFinish()
+            }
+        
+        
+    }
+
+    function success(){
+        setVision('dashboard')
+        setMessage({message:false,typeMessage:null})
+    }
+
+
+
     return(
         <AppContext.Provider
         value = {{
@@ -221,6 +332,8 @@ function AppProvider({children}){
             listOnPlay,setListOnPlay,
             routine,setRoutine,
             error,setError,
+            message,setMessage,
+            timeRoutine, setTimeRoutine,
             listExercises,
             routineOnPlay,
             selectOnList,
@@ -233,7 +346,10 @@ function AppProvider({children}){
             changeVision,
             deleteSerie,
             goRoutine,
-            finishSerie
+            finishSerie,
+            endRoutine,
+            success,
+            routineFinish,
         }}
         >
             {children}

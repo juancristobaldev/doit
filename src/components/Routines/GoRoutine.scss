@@ -17,6 +17,11 @@ main.mainGoRoutine {
     }
     button {
       height: 40%;
+      width: 40%;
+      border-radius: 0.25rem;
+      background-color: #3e3e3e;
+      color: white;
+      border: 0;
     }
   }
   .stats {

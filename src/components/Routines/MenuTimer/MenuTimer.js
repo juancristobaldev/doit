@@ -2,10 +2,12 @@ import React, { useContext, useState, useEffect } from "react";
 import { Timer } from "./Timer";
 
 import "./MenuTimer.scss"
+import { AppContext } from "../../../hooks/AppContext";
 
 
 function MenuTimer(){
 
+    const {UserDB} = useContext(AppContext)
     const [open,setOpenTimer] = useState(false)
     const [timerSelect,setTimerSelect] = useState(
         {
@@ -13,11 +15,21 @@ function MenuTimer(){
             select:false
         }
     )
-    const timer = ["01:30","02:30","00:10"]
 
+    const alterTimer = () => {
+        if(open === true){
+            setOpenTimer(false)
+            setTimerSelect({
+                time:null,
+                select:false
+            })
+        }else{
+            setOpenTimer(true)
+        }
+    }
     return(
         <div 
-        className="temporizador"
+        className={`temporizador ${timerSelect.select === true && 'gridOn'}`}
         style={open === true ?
         {
         transition:"1s",
@@ -35,19 +47,25 @@ function MenuTimer(){
         >
             <div className="titleCountdown">
                 <h3>¡Es tiempo de descansar!</h3>
-                <button>Omitir</button>
+                <button
+                onClick={() => alterTimer()}
+                className="skipButton"
+                >Omitir</button>
             </div>
-            <div className="infoCountdown">
+            {
+                timerSelect.select === false &&
+                <div className="infoCountdown">
                 El temporizador guarda los ultimos 3 temporizadores que tu has creado para que los puedas ocupar cuando tu quieras
-            </div>
-            <div className={timerSelect.select ? '' : 'listCountdowns'}>
+                </div>
+            }
+            <div className={timerSelect.select ? 'sectionTimer' : 'listCountdowns'}>
                 {timerSelect.select ? 
                     <Timer
                     time={timerSelect.time}
                     />    
                 :
-                timer.length > 0 ?
-                timer.map(time => 
+                UserDB.countdown.length > 0 ?
+                UserDB.countdown.map(time => 
                     <div 
                     className="itemCountdown"
                     onClick={() => setTimerSelect({time:time,select:true})}
@@ -56,18 +74,26 @@ function MenuTimer(){
                     </div>
                 )
                 :
-                <div>
-                    <p>No hay temporizadores</p>
+                <div className="unTimer">
+                    <p>No hay temporizadores <br/> ⏱️ </p>
                 </div>
                 }  
             </div>
             <div className="createCountdown">
-                <button>Crear temporizador</button>
+            {timerSelect.select ? 
+                <button
+                onClick={() => {
+                    setTimerSelect({time:null,select:false})
+                }}
+                >Lista de temporizadores</button> 
+                : 
+                <button>Crear temporizador</button> 
+            }
             </div>
             <div 
             className="activador"
             style={{placeSelf:"center"}}
-            onClick={() => setOpenTimer(!open)}
+            onClick={() => alterTimer()}
             >
             <p
                 style={
@@ -75,7 +101,7 @@ function MenuTimer(){
                     gridArea:"3 / 1 / 4 / 2",
                 }
                 }
-                >Temporizador</p>
+                >{open ? 'Cerrar temporizador' : 'Abrir temporizador'}</p>
             </div>
         </div>
     )

@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AppContext } from "../../../hooks/AppContext";
 
 function FinishRoutine(){
+    const {endRoutine} = useContext(AppContext)
+
     return(
-        <button>Finalizar rutina</button>
+        <button onClick={() => endRoutine()}>Finalizar rutina</button>
     )
 }
 

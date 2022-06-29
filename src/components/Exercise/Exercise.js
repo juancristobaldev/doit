@@ -37,13 +37,18 @@ function Exercise({objExercise,exercise,mode}){
                     >
                         <p className="nSerie">{item.id}</p>
                         <p className="nameSerie">{exercise}</p>
-                        <input className="repsInput" 
-                        name={item.id} 
-                        value={mode === "onPlay" ? item.reps : null}
-                        onChange={(element) => formRoutine(element,item.id,exercise)
-                        } 
-                        type={"number"}/>
-
+                        {item.reps > 0 ?
+                            <input className="repsInput" 
+                            name={item.id} 
+                            value={item.reps}
+                            onChange={(element) => formRoutine(element,item.id,exercise)} 
+                            type={"number"}/>
+                            :
+                            <input className="repsInput" 
+                            name={item.id} 
+                            onChange={(element) => formRoutine(element,item.id,exercise)} 
+                            type={"number"}/>
+                        }
                         {mode == "onPlay" && 
                         <CheckBox 
                         serieID={item.id}

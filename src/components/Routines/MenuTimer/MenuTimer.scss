@@ -1,3 +1,7 @@
+.temporizador.gridOn {
+  grid-template: 10% 1fr 10% 10% / 100% !important;
+}
+
 .temporizador {
   display: grid;
   grid-template: 10% 15% 1fr 10% 10% / 100%;
@@ -15,6 +19,15 @@
     h3 {
       font-size: 1rem;
     }
+    .skipButton {
+      height: 50%;
+      width: 30%;
+      background-color: #656565;
+      border: 0;
+      color: white;
+      cursor: pointer;
+      border-radius: 0.25rem;
+    }
   }
   .infoCountdown {
     padding: 0rem 1rem;
@@ -26,6 +39,11 @@
     grid-template-rows: repeat(3, 0.5fr);
     height: 50%;
     width: 100%;
+    .unTimer {
+      place-self: center;
+      opacity: 50%;
+      text-align: center;
+    }
     .itemCountdown {
       display: flex;
       justify-content: center;
@@ -34,30 +52,54 @@
       border-bottom: 0.5px solid rgb(45, 45, 45);
     }
   }
-  .countdown {
-    border: 1px solid silver;
-    display: grid;
-    height: 60%;
-    width: 60%;
-    grid-template: 60% 40% / 50% 50%;
-    place-self: center;
-    .algoritm {
-      grid-area: 1 / 1 / 2 / 3;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      h2 {
-        font-size: 4rem;
+  .sectionTimer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .timer {
+      display: grid;
+      grid-template: 70% 30% / 45% 10% 45%;
+      width: 50%;
+      height: 50%;
+      .timer-count {
+        display: grid;
+        grid-template-rows: 20% 80%;
+        .name-timer-count {
+          place-self: center;
+        }
+        h2 {
+          place-self: center;
+          font-size: 4rem;
+        }
       }
-    }
-    .algoritmDown,
-    .algoritmUp {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      button {
-        width: 80%;
-        height: 50%;
+      .timer-count.separator {
+        p {
+          grid-area: 2 / 1 / 3 / 2;
+          place-self: center;
+          font-size: 4rem;
+        }
+      }
+      .timer-buttons {
+        grid-area: 2 / 1 / 3 / 4;
+        display: flex;
+        justify-content: space-around;
+        button {
+          width: 30%;
+          padding: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: #6e6e6e;
+          border: 0;
+          color: white;
+          &:active {
+            background-color: rgb(37, 37, 37);
+          }
+        }
+        .buttonDelete,
+        .buttonAdd {
+          font-size: 1.25em;
+        }
       }
     }
   }
@@ -67,12 +109,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 0.75rem;
   }
   .createCountdown {
     place-self: center;
     button {
       width: 85vw;
       height: 5vh;
+      border: 0;
+      border-radius: 0.25rem;
     }
   }
   .countdownEmpty {

@@ -37,8 +37,8 @@ function DashBoard(){
             routine={routine}
             name={routine.name}
             nExercises={routine.exercises.length}
-            done={routine.done ? routine.done : 0}
-            time={routine.time ? routine.time : '00:00'}
+            done={routine.endpoints ? routine.endpoints : 0}
+            time={routine.timeRecord ? routine.timeRecord : '00:00'}
             key={routine.name}
             />
           ))}

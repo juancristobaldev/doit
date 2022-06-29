@@ -1,18 +1,23 @@
+@mixin dflex($jcenter, $aitems, $flexdirection) {
+  display: flex;
+  justify-content: $jcenter;
+  align-items: $aitems;
+  flex-direction: $flexdirection;
+}
+
 .modalMenu {
   display: grid;
   position: absolute;
   top: 0;
   width: 80%;
-  height: 90vh;
-  margin: 5vh 10%;
+  height: 80vh;
+  margin: 10vh 10%;
   border-radius: 0.25rem;
   background-color: white;
   box-shadow: 2px 2px 10px rgba($color: #000000, $alpha: 1);
   animation: fade 0.5s;
   .titleMenu {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    @include dflex(space-between, center, row);
     padding: 0 1rem;
     h3 {
       font-weight: 600;
@@ -46,9 +51,7 @@
   .exercisesList {
     background: linear-gradient(to bottom, #ffffff 0%, #f7f7f7 100%);
     .itemExerciseSelect {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      @include dflex(space-between, center, row);
       height: 7.5%;
       border-bottom: 1px solid silver;
       margin: 0px 1rem;

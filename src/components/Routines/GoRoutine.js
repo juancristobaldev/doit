@@ -14,9 +14,12 @@ import "./GoRoutine.scss"
 import { MenuTimer } from "./MenuTimer/MenuTimer";
 import { Footer } from "../Footer/Footer";
 import { List } from "../List/List";
+import { Error } from "../Error/Error";
+import { Message } from "../Error/Message/Message";
+
 
 function GoRoutine(){   
-    const {routine,listOnPlay,panelAdd} = useContext(AppContext)
+    const {routine,listOnPlay,panelAdd,error,message} = useContext(AppContext)
     return(
         <Main
         className="mainGoRoutine"
@@ -30,7 +33,7 @@ function GoRoutine(){
                 <FinishRoutine/>
             </Section>
             <Section className={"stats"}>
-                <div>Tiempo record 🎉: indefinido</div>
+                <div>Tiempo record 🎉: {routine.timeRecord ? routine.timeRecord : '00:00:00'}</div>
                 <ProgressiveCount/>
             </Section>
             <List className="ListOnPlay">
@@ -48,6 +51,16 @@ function GoRoutine(){
             <Modal>
                 <ExercisesForm/>
             </Modal>
+            }
+            {error.error === true &&
+            <Modal>
+                <Error/>
+            </Modal>
+            }
+            {message.message === true &&
+                <Modal>
+                    <Message/>
+                </Modal>
             }
         </Main>
         

@@ -1,3 +1,10 @@
+@mixin dflex($jcenter, $aitems, $flexdirection) {
+  display: flex;
+  justify-content: $jcenter;
+  align-items: $aitems;
+  flex-direction: $flexdirection;
+}
+
 .Error {
   animation: fade 0.5s;
   background-color: white;
@@ -17,8 +24,12 @@
     height: 4em;
     fill: red;
   }
+  .iconError.success svg {
+    fill: rgb(57, 57, 57) !important;
+  }
   .buttonError {
     button {
+      transition: 0.5s;
       width: 70vw;
       height: 5vh;
       background-color: transparent;
@@ -29,15 +40,38 @@
         transition: 0.5s;
         background-color: #1c1c1c;
         color: white;
+        transform: scale(1.1);
       }
+    }
+  }
+  .buttonsError {
+    width: 80%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    button {
+      width: 45%;
+      height: 40%;
+      border: 0;
+      transition: 0.5s;
+      border-radius: 0.25rem;
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+    .continue {
+      background: rgb(233, 233, 233);
+    }
+    .cancel {
+      background: rgb(137, 137, 137);
+      color: white;
     }
   }
 }
 .background {
+  @include dflex(center, center, row);
   position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   top: 0;
   height: 100vh;
   width: 100%;

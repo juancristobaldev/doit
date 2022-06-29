@@ -1,10 +1,15 @@
+@mixin dflex($jcenter, $aitems, $flexdirection) {
+  display: flex;
+  justify-content: $jcenter;
+  align-items: $aitems;
+  flex-direction: $flexdirection;
+}
+
 .addSomething.addRoutine {
   display: grid;
   grid-template: repeat(2, 1fr) / 100%;
   .functions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    @include dflex(space-between, center, row);
     p {
       font-size: 0.75rem;
     }
@@ -15,9 +20,7 @@
 }
 
 .addSomething.addFolder {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  @include dflex(space-between, center, row);
 }
 .addSomething.addFolder,
 .addSomething.addRoutine {

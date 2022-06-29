@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AppContext } from "../../../hooks/AppContext";
 
 function ProgressiveCount(){
+    const {timeRoutine, setTimeRoutine} = useContext(AppContext)
+
     const [seg,setSeg] = useState('00')
     const [min,setMin] = useState('00')
     const [hour,setHour] = useState('00')
@@ -35,6 +38,13 @@ function ProgressiveCount(){
     }
 
     setTimeout(() => {
+        setTimeRoutine(
+            {
+                hour:hour,
+                min:min,
+                seg:seg
+            }
+        )
         time(hour,min,seg)
     },1000)
     return(
