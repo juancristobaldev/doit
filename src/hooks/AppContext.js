@@ -92,6 +92,14 @@ function AppProvider({children}){
         }
     }
 
+    function deleteExercise(name){
+        const newListExercises = listExercises.filter(item => item.name !== name)
+        const newUserDB = {...UserDB}
+        newUserDB.exercises = newListExercises
+        setListExercises(newUserDB.exercises)
+        AlterUserDB('UserDB',newUserDB)
+    }
+
     function AddSerie(nameExercise){
         const newListExercises = [...listOnPlay],
         exercise = newListExercises.findIndex(item => item.name === nameExercise),
@@ -163,6 +171,12 @@ function AppProvider({children}){
         }
     }
     
+    function deleteExerciseOfList(name){
+        const newListOnPlay = listOnPlay.filter(item => item.name !== name)
+        setListOnPlay(newListOnPlay)
+
+    }
+
     //Routines
 
     function formRoutine(element,name,exerciseName){
@@ -318,6 +332,22 @@ function AppProvider({children}){
         setMessage({message:false,typeMessage:null})
     }
 
+     //Timers
+
+     function createTimer(){
+        const data = {...dataForm}
+        const newData = {...UserDB}
+        const timer =  `${data.min <= 9 ? `0${data.min}` : data.min }:${data.seg <= 9 ? `0${data.seg}` : data.seg }`
+        if(newData.countdown < 3){
+            newData.countdown.unshift(timer)
+        }else{
+            newData.countdown.pop()
+            newData.countdown.unshift(timer)
+        }
+        
+        AlterUserDB('UserDB',newData)
+        
+     }
 
 
     return(
@@ -338,7 +368,9 @@ function AppProvider({children}){
             routineOnPlay,
             selectOnList,
             addExerciseToList,
+            deleteExerciseOfList,
             createExercise,
+            deleteExercise,
             getDataForm,
             AddSerie,
             formRoutine,
@@ -350,6 +382,7 @@ function AppProvider({children}){
             endRoutine,
             success,
             routineFinish,
+            createTimer
         }}
         >
             {children}

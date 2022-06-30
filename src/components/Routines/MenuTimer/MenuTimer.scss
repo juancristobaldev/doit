@@ -29,6 +29,60 @@
       border-radius: 0.25rem;
     }
   }
+  .timer {
+    place-self: center;
+    display: grid;
+    grid-template: 60% 10% 30% / 45% 10% 45%;
+    width: 70%;
+    height: 60%;
+    .timer-count {
+      display: grid;
+      place-items: center;
+      grid-template-rows: 20% 80%;
+      input {
+        width: 80%;
+        height: 80%;
+        border-radius: 0.25rem;
+        border: 0;
+        background: #363636;
+        box-shadow: inset 1px 1px 8px rgb(27, 27, 27);
+        color: white;
+        font-size: 3rem;
+        text-align: center;
+        &:focus {
+          outline: none;
+        }
+        &::-webkit-inner-spin-button,
+        ::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+        }
+      }
+    }
+    .separator-timer {
+      p {
+        grid-area: 2 / 1 / 3 / 2;
+        place-self: center;
+        font-size: 4rem;
+      }
+    }
+    .button-timer {
+      grid-area: 3 / 1 / 4 / 4;
+      place-self: center;
+      button {
+        width: 60vw;
+        transition: 0.5s;
+        height: 5vh;
+        border: 1px solid white;
+        color: white;
+        background: transparent;
+        border-radius: 0.25rem;
+        &:hover {
+          color: black;
+          background-color: white;
+        }
+      }
+    }
+  }
   .infoCountdown {
     padding: 0rem 1rem;
     place-self: center;

@@ -4,9 +4,10 @@ import "./Exercise.scss"
 import {BsThreeDots} from "react-icons/bs"
 import { IoMdClose } from "react-icons/io";
 import { CheckBox } from "../Routines/Checkbox/CheckBox";
+import {MdDeleteForever} from "react-icons/md"
 
 function Exercise({objExercise,exercise,mode}){
-    const {AddSerie,formRoutine,deleteSerie} = React.useContext(AppContext)
+    const {AddSerie,formRoutine,deleteSerie,deleteExerciseOfList} = React.useContext(AppContext)
 
     return(
         <div className="itemExercise"
@@ -14,7 +15,11 @@ function Exercise({objExercise,exercise,mode}){
             <div className="exerciseData">
                 <p>{objExercise.name}</p>
                 <p>{objExercise.muscle}</p>
-                <BsThreeDots/>
+                <MdDeleteForever 
+                style={{cursor:"pointer"}}
+                height={"1.5em"}
+                width={"1.5em"}
+                onClick={() => deleteExerciseOfList(objExercise.name)}/>
               </div>
               <div className="back">
               <div className="exerciseGridName"

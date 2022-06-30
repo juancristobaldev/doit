@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import { AppContext } from "../../hooks/AppContext";
+import {MdDeleteForever} from "react-icons/md"
 
 function ListExercises({className,style}){
-    const { listExercises,selectOnList } = useContext(AppContext)
+    const { listExercises,selectOnList,deleteExercise } = useContext(AppContext)
     return(
         <div 
         className={className}
@@ -25,13 +26,13 @@ function ListExercises({className,style}){
             key={exercise.name}
             >
                 <p>{exercise.name}</p>
-                <div 
-                style={ exercise.select ? 
-                        {
-                            background:"black"
-                        }:{}}
-                        className="circle"></div>
-                </div>            
+                {exercise.select === true &&
+                    <MdDeleteForever 
+                        onClick={() => deleteExercise(exercise.name)}
+                        style={{cursor:"pointer"}}
+                    />
+                }
+            </div>            
             )
         }  
         </div>

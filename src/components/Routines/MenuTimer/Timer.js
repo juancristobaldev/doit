@@ -3,7 +3,6 @@ import {FaPlay} from "react-icons/fa"
 import {VscDebugRestart} from "react-icons/vsc"
 import {CgMathMinus,CgMathPlus} from "react-icons/cg"
 function Timer({time}){
-
     const convertTime = () => {
         const minutes = (parseInt(`${time[0]}${time[1]}`) * 60000)
         const seconds = (parseInt(`${time[3]}${time[4]}`) * 1000)
