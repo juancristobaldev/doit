@@ -48,7 +48,10 @@ function AppProvider({children}){
         min:null,
         seg:null
     })
+    const [searched,setSearched] = useState('')
     const [routineOnPlay,setRoutineOnPlay] = useState(null)
+
+
     //Change Modal
     
     function changeVision(vision){
@@ -137,6 +140,20 @@ function AppProvider({children}){
     }
 
     // Crud Select of the List
+
+    function searchOnList(searched){
+        let newList = []
+        const list = [...UserDB.exercises]
+        const textSearched = searched.toLowerCase()
+        list.forEach(item => {
+            const itemSearch = item.name.toLowerCase()
+            if(itemSearch.includes(textSearched)){
+                newList.push(item)
+            }
+        })
+        setListExercises(newList)
+    }
+
 
     function selectOnList(nameExercise){
         const newListSelect = [...listExercises]
@@ -366,6 +383,7 @@ function AppProvider({children}){
             timeRoutine, setTimeRoutine,
             listExercises,
             routineOnPlay,
+            searchOnList,
             selectOnList,
             addExerciseToList,
             deleteExerciseOfList,
@@ -382,7 +400,8 @@ function AppProvider({children}){
             endRoutine,
             success,
             routineFinish,
-            createTimer
+            createTimer,
+            setSearched
         }}
         >
             {children}

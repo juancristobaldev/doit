@@ -17,6 +17,7 @@ function ExercisesForm(){
         addExerciseToList,
         selectOnList,
         getDataForm,
+        searchOnList,
         panelAdd,setPanelAdd
     } = React.useContext(AppContext)
     return(
@@ -41,7 +42,10 @@ function ExercisesForm(){
                 text="Lista de ejercicios"
                 />
                 <div className="divInput">
-                    <input placeholder="Buscar ejercicio..." type="text"/>
+                    <input placeholder="Buscar ejercicio..." 
+                    type="text"
+                    onChange={event => searchOnList(event.target.value)}
+                    />
                     <IoMdSearch/>
                 </div>
                 {UserDB.exercises.length === 0 && <p className="emptyExercises">Crea tu primer ejercicio <br/> 🏋🏻</p>}
