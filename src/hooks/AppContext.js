@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ListExercises } from "../components/List/ListExercises";
 import { useLocalStorage } from "./useLocalStorage";
 
 const AppContext = React.createContext()
@@ -22,6 +23,7 @@ function AppProvider({children}){
     const [counter,setCounter] = useState(0)
     const [panelAdd,setPanelAdd] = useState(false)
     const [listExercises,setListExercises] = useState([...UserDB.exercises])
+    const [searched,setSearched] = useState('')
     const [listOnPlay,setListOnPlay] = useState([])
     const [dataForm,setDataForm] = useState({})
     const [formCreate,setFormCreate] = useState(
@@ -48,8 +50,6 @@ function AppProvider({children}){
         min:null,
         seg:null
     })
-    const [searched,setSearched] = useState('')
-    const [routineOnPlay,setRoutineOnPlay] = useState(null)
 
 
     //Change Modal
@@ -72,6 +72,7 @@ function AppProvider({children}){
         data[name] = event.target.value
         setDataForm(data)
     }
+
     // Crud Exercises
     function createExercise(event){
         event.preventDefault()
@@ -95,13 +96,34 @@ function AppProvider({children}){
         }
     }
 
-    function deleteExercise(name){
-        const newListExercises = listExercises.filter(item => item.name !== name)
-        const newUserDB = {...UserDB}
-        newUserDB.exercises = newListExercises
-        setListExercises(newUserDB.exercises)
-        AlterUserDB('UserDB',newUserDB)
+
+    async function deleteExercise(name){
+        const newListDB = UserDB['exercises'].filter(exercise => exercise.name != name)
+        const db = {...UserDB}
+        db['exercises'] = [...newListDB]
+        await AlterUserDB('UserDB',db)
+        setListExercises(db['exercises'])
     }
+
+    function searchExercise(textSearch){
+        const newList = []
+        if(textSearch.length == 0){
+            setListExercises([...UserDB['exercises']])
+        }else{
+            
+            UserDB['exercises'].forEach(exercise => {
+                console.log('here')
+                const exerciseLowerCase = exercise.name.toLowerCase(),
+                nameLowerCase = textSearch.toLowerCase();
+                if(exerciseLowerCase.includes(nameLowerCase)){
+                    newList.push(exercise)
+                }
+            })
+            setListExercises(newList)
+        }
+    }
+    // Series
+
 
     function AddSerie(nameExercise){
         const newListExercises = [...listOnPlay],
@@ -140,20 +162,6 @@ function AppProvider({children}){
     }
 
     // Crud Select of the List
-
-    function searchOnList(searched){
-        let newList = []
-        const list = [...UserDB.exercises]
-        const textSearched = searched.toLowerCase()
-        list.forEach(item => {
-            const itemSearch = item.name.toLowerCase()
-            if(itemSearch.includes(textSearched)){
-                newList.push(item)
-            }
-        })
-        setListExercises(newList)
-    }
-
 
     function selectOnList(nameExercise){
         const newListSelect = [...listExercises]
@@ -381,9 +389,8 @@ function AppProvider({children}){
             error,setError,
             message,setMessage,
             timeRoutine, setTimeRoutine,
-            listExercises,
-            routineOnPlay,
-            searchOnList,
+            listExercises,setListExercises,
+            searchExercise,
             selectOnList,
             addExerciseToList,
             deleteExerciseOfList,
@@ -400,8 +407,7 @@ function AppProvider({children}){
             endRoutine,
             success,
             routineFinish,
-            createTimer,
-            setSearched
+            createTimer
         }}
         >
             {children}

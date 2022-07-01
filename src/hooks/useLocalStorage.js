@@ -1,13 +1,11 @@
 import {useState} from "react"
 
 
-
-
 const useLocalStorage = (itemName,initialValue) => {
     
     const itemLocalStorage = JSON.parse(localStorage.getItem(itemName))
 
-    if(itemLocalStorage == null){
+    if(itemLocalStorage === null){
         localStorage.setItem(itemName,JSON.stringify(initialValue))
         itemLocalStorage = localStorage.getItem(itemName)
     }

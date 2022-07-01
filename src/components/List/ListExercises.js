@@ -3,7 +3,7 @@ import { AppContext } from "../../hooks/AppContext";
 import {MdDeleteForever} from "react-icons/md"
 
 function ListExercises({className,style}){
-    const { listExercises,selectOnList,deleteExercise } = useContext(AppContext)
+    const { listExercises,selectOnList,deleteExercise} = useContext(AppContext)
     return(
         <div 
         className={className}

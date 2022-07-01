@@ -15,10 +15,9 @@ function ExercisesForm(){
         setModal,
         createExercise,
         addExerciseToList,
-        selectOnList,
+        searchExercise,
         getDataForm,
-        searchOnList,
-        panelAdd,setPanelAdd
+
     } = React.useContext(AppContext)
     return(
         <div className="background">
@@ -43,8 +42,9 @@ function ExercisesForm(){
                 />
                 <div className="divInput">
                     <input placeholder="Buscar ejercicio..." 
+                    onChange={event => searchExercise(event.target.value)}
                     type="text"
-                    onChange={event => searchOnList(event.target.value)}
+                
                     />
                     <IoMdSearch/>
                 </div>

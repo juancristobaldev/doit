@@ -49,6 +49,7 @@
     }
   }
   .exercisesList {
+    overflow: auto;
     background: linear-gradient(to bottom, #ffffff 0%, #f7f7f7 100%);
     .itemExerciseSelect {
       @include dflex(space-between, center, row);
