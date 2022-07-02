@@ -15,15 +15,12 @@ function AppProvider({children}){
     })
     const UserDB = itemLocalStorage
     const AlterUserDB = saveItemLocalStorage
-
     const [error,setError] = useState({error:false,type:'next',typeError:null})
     const [message,setMessage] = useState({message:false,typeMessage:null})
-
     const [vision,setVision] = useState('dashboard')
     const [counter,setCounter] = useState(0)
     const [panelAdd,setPanelAdd] = useState(false)
     const [listExercises,setListExercises] = useState([...UserDB.exercises])
-    const [searched,setSearched] = useState('')
     const [listOnPlay,setListOnPlay] = useState([])
     const [dataForm,setDataForm] = useState({})
     const [formCreate,setFormCreate] = useState(
@@ -44,7 +41,6 @@ function AppProvider({children}){
             active:null
         }
     )
-
     const [timeRoutine, setTimeRoutine] = useState({
         hour:null,
         min:null,
@@ -52,16 +48,21 @@ function AppProvider({children}){
     })
 
 
+
+
     //Change Modal
     
     function changeVision(vision){
         if(vision === "dashboard"){
-            setPanelAdd(!panelAdd)
             setVision(vision)
+            setPanelAdd(false)
             setListOnPlay([])
+            setRoutine({...routine, exercises:[]})
         }else if(vision === "addRoutine"){
             setVision(vision)
             setPanelAdd(false)
+        }else if(vision === "goRoutine"){
+            setVision(vision)
         }
     }
 
@@ -74,7 +75,7 @@ function AppProvider({children}){
     }
 
     // Crud Exercises
-    function createExercise(event){
+    async function createExercise(event){
         event.preventDefault()
         const data = {...dataForm}
         const DB = UserDB
@@ -82,16 +83,27 @@ function AppProvider({children}){
         if(index >= 0){
             setError({error:true,typeError:"Ya existe un ejercicio con el mismo nombre"})
         }else{
-            if(data["name"] && data["type"] && data["muscle"]){
+            if(data["name"]){
+                if(!data["type"] && !data['muscle']){
+                    data['type'] = 'Peso asistido'
+                    data['muscle'] = 'Espalda'
+                }
                 data["series"] = []
                 data["select"] = false
                 const newDataUser = {...UserDB}
                 newDataUser.exercises.push(data)
                 setModal("select")
-                AlterUserDB('UserDB',newDataUser)
-                setListExercises([...UserDB.exercises])
+                await   AlterUserDB('UserDB',newDataUser)
+                        setListExercises([...UserDB.exercises])
+                        setDataForm(
+                            {
+                            name:null,
+                            muscle:null,
+                            type:null
+                            }
+                        )
             }else{
-                setError({error:true,typeError:"Rellena todos los campos"})
+                setError({error:true,typeError:"Debes escribir un nombre para tu ejercicio"})
             }
         }
     }
@@ -237,7 +249,7 @@ function AppProvider({children}){
         }else{
             setError({error:true,typeError:"Debes asignar un nombre a la rutina"})
         }
-        
+        setPanelAdd(false)
     }
 
     function goRoutine(routine){
@@ -312,6 +324,7 @@ function AppProvider({children}){
             changesRoutine["timeRecord"] = timeNow
         }
         //Quitar ejercicios eliminados
+
         const newListOnPlay = [...listOnPlay]
         const indexRoutine = UserDB.routines.findIndex(item => item.name === routine.name)
         const newUserDB = {...UserDB}

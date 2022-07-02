@@ -17,6 +17,7 @@ function FormControl({as,name,type,children,label,onChange,className}){
                 <div className={className}>
                     <label>{label}</label>
                     <select 
+                    defaultValue={name === 'muscle' ? 'Espalda' : 'Peso asistido'}
                     onChange={(event) => onChange(event,name)}
                     >
                     {children}

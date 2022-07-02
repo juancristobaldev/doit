@@ -33,12 +33,16 @@ function Exercise({objExercise,exercise,mode}){
                 <p className="repsName">Reps</p>
               </div>
                   {objExercise["series"].map(item =>
-                    <div className={item.completed == true ? "serie completed" : "serie" }  
+                    <div    
+                    className={
+                        item.completed == true ? "serie completed" : "serie" 
+                    }  
                     style={mode == "onPlay" ? 
                         {gridTemplateColumns: "20% 30% 20% 20% 10%"}
                         :
                         {gridTemplateColumns: "20% 50% 20% 10%"}
                     }
+                    key={`${item.id}${exercise}`}
                     >
                         <p className="nSerie">{item.id}</p>
                         <p className="nameSerie">{exercise}</p>

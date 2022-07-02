@@ -95,9 +95,9 @@ function ExercisesForm(){
                         label={"Musculo dominante:"}
                         onChange={getDataForm} 
                         >
-                            <option>Espalda</option>
-                            <option>Pierna</option>
-                            <option>Abdomen</option>
+                            <option selected value='Espalda'>Espalda</option>
+                            <option value='Pierna'>Pierna</option>
+                            <option value='Abdomen'>Abdomen</option>
                         </FormControl>
                         <FormControl
                         as={"select"} 
@@ -106,9 +106,9 @@ function ExercisesForm(){
                         label={"Tipo de ejercicio:"}
                         onChange={getDataForm}
                         >
-                            <option>Peso asistido</option>
-                            <option>Peso ponderado</option>
-                            <option>Solo rep</option>
+                            <option selected value='asistido'>Peso asistido</option>
+                            <option value='ponderado'>Peso ponderado</option>
+                            <option value='soloRep'>Solo rep</option>
                         </FormControl>
                     </Form>
                 </React.Fragment>

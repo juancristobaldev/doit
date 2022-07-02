@@ -19,33 +19,34 @@ function AddRoutine(){
     return(
         <Main className="addRoutine">
         <Section className="sectionTitle">
-        <h4>Crear una rutina</h4>
-        <IoMdClose
-        onClick={() => changeVision('dashboard')}
-        />
+          <h4>Crear una rutina</h4>
+          <IoMdClose
+          onClick={() => changeVision('dashboard')}
+          />
         </Section>
         <Section className="sectionInputTitle">
           <input placeholder="Nombre de la rutina" onChange={(e) => formRoutine(e,"title")}/>
         </Section>
-        <List 
-        style={listOnPlay == false ?
-        {display:"flex",
-        justifyContent:"center",
-        alignItems:"center",
-        textAlign:"center",
-        color:"white",
-        }:{}}
-        className="ListExercises"
-        >
-        {listOnPlay == false && <p style={{opacity:"50%"}}>Añade tu primer ejercicio <br/> 🏋🏻</p>}
-        {listOnPlay.length > 0 && listOnPlay.map(
-          exercise => 
-          <Exercise
-          exercise={exercise.name}
-          objExercise={exercise}
-          />
-        )}
-        </List>
+          <List 
+          style={listOnPlay == false ?
+          {display:"flex",
+          justifyContent:"center",
+          alignItems:"center",
+          textAlign:"center",
+          color:"white",
+          }:{}}
+          className="ListExercises"
+          >
+          {listOnPlay == false && <p style={{opacity:"50%"}}>Añade tu primer ejercicio <br/> 🏋🏻</p>}
+          {listOnPlay.length > 0 && listOnPlay.map(
+            exercise => 
+            <Exercise
+            key={exercise.name}
+            exercise={exercise.name}
+            objExercise={exercise}
+            />
+          )}
+          </List>
         <Section className="sectionButtons">
             <OpenModalExercise/>
             <SaveRoutine/>
