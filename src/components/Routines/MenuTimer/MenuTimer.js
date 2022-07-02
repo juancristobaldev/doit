@@ -19,6 +19,12 @@ function MenuTimer(){
     const alterTimer = () => {
         if(open === true){
             setOpenTimer(false)
+        }else{
+            setOpenTimer(true)
+        }
+    }
+
+    const skipTimer = () => {
             if(menu === true){
                 setMenu(!menu)
             }
@@ -26,9 +32,7 @@ function MenuTimer(){
                 time:null,
                 select:false
             })
-        }else{
-            setOpenTimer(true)
-        }
+            setOpenTimer(false)
     }
 
     return(
@@ -52,7 +56,7 @@ function MenuTimer(){
             <div className="titleCountdown">
                 <h3>¡Es tiempo de descansar!</h3>
                 <button
-                onClick={() => alterTimer()}
+                onClick={() => skipTimer()}
                 className="skipButton"
                 >Omitir</button>
             </div>

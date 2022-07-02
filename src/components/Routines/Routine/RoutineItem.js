@@ -27,6 +27,7 @@ function RoutineItem({name,nExercises,done,time,routine}){
             </div>
             <div className="divButton">
                 <button onClick={() => goRoutine(routine)}>GO</button>
+                <button onClick={() => goRoutine(routine)}>Eliminar</button>
             </div>
         </div>
     )

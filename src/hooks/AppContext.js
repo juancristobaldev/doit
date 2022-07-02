@@ -112,7 +112,6 @@ function AppProvider({children}){
         }else{
             
             UserDB['exercises'].forEach(exercise => {
-                console.log('here')
                 const exerciseLowerCase = exercise.name.toLowerCase(),
                 nameLowerCase = textSearch.toLowerCase();
                 if(exerciseLowerCase.includes(nameLowerCase)){
@@ -196,10 +195,9 @@ function AppProvider({children}){
         }
     }
     
-    function deleteExerciseOfList(name){
+    async function deleteExerciseOfList(name){
         const newListOnPlay = listOnPlay.filter(item => item.name !== name)
         setListOnPlay(newListOnPlay)
-
     }
 
     //Routines
@@ -313,13 +311,24 @@ function AppProvider({children}){
             const timeNow = `${timeRoutine.hour}:${timeRoutine.min}:${segundo <= 9 ? `0${segundo}` : segundo}`;
             changesRoutine["timeRecord"] = timeNow
         }
-      
-        //Guardar en el localStorage
+        //Quitar ejercicios eliminados
+        const newListOnPlay = [...listOnPlay]
         const indexRoutine = UserDB.routines.findIndex(item => item.name === routine.name)
         const newUserDB = {...UserDB}
+        const newListExercises = []
+      
+        newUserDB.routines[indexRoutine].exercises.forEach(item => {
+            const index = newListOnPlay.findIndex(exercise => item.name === exercise.name)
+            if(index >= 0){
+                newListExercises.push({name:newListOnPlay[index].name,serie:newListOnPlay[index].series})
+            }
+        })
+
+        changesRoutine.exercises = newListExercises
+
+        //Guardar en el localStorage
         newUserDB["routines"][indexRoutine] = changesRoutine
         AlterUserDB('UserDB',newUserDB)
-
     }
     function endRoutine(confirm){
         const newListOnPlay = [...listOnPlay]
