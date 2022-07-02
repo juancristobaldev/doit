@@ -60,6 +60,7 @@ function AppProvider({children}){
             setRoutine({...routine, exercises:[]})
         }else if(vision === "addRoutine"){
             setVision(vision)
+            setListOnPlay([])
             setPanelAdd(false)
         }else if(vision === "goRoutine"){
             setVision(vision)
@@ -235,24 +236,36 @@ function AppProvider({children}){
     }
 
 
-    function AddRoutine(){
+    async function AddRoutine(){
         const Routine = {...routine} 
         if(Routine.name !== null){
             if(Routine.exercises.length === listOnPlay.length){
                 const newDB = {...UserDB}
                 newDB.routines.push(Routine)
-                AlterUserDB('UserDB',newDB)
-                changeVision('dashboard')
+                
+                await   AlterUserDB('UserDB',newDB)
+                        changeVision('dashboard')
+                        setRoutine(        
+                            {
+                                name:null,
+                                key:null,
+                                timeRecord:null,
+                                endpoints:null,
+                                exercises:[],
+                                active:null
+                            }
+                        )
             }else{
                 setError({error:true,typeError:"No puedes dejar un ejercicio en blanco"})
             }
         }else{
             setError({error:true,typeError:"Debes asignar un nombre a la rutina"})
         }
-        setPanelAdd(false)
     }
 
     function goRoutine(routine){
+        setMessage({message:false})
+        setError({error:false})
         const newListOnPlay = []
         routine["exercises"].forEach(exercise => {
             exercise.serie.forEach(serie => 
@@ -325,25 +338,14 @@ function AppProvider({children}){
         }
         //Quitar ejercicios eliminados
 
-        const newListOnPlay = [...listOnPlay]
         const indexRoutine = UserDB.routines.findIndex(item => item.name === routine.name)
         const newUserDB = {...UserDB}
-        const newListExercises = []
-      
-        newUserDB.routines[indexRoutine].exercises.forEach(item => {
-            const index = newListOnPlay.findIndex(exercise => item.name === exercise.name)
-            if(index >= 0){
-                newListExercises.push({name:newListOnPlay[index].name,serie:newListOnPlay[index].series})
-            }
-        })
-
-        changesRoutine.exercises = newListExercises
 
         //Guardar en el localStorage
         newUserDB["routines"][indexRoutine] = changesRoutine
         AlterUserDB('UserDB',newUserDB)
     }
-    function endRoutine(confirm){
+    function endRoutine(){
         const newListOnPlay = [...listOnPlay]
         const seriesUnCompleted = []
         
